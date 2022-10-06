@@ -1,8 +1,17 @@
-import { Container } from "@mui/material";
-import { NextPageWithLayout } from "./_app";
+import { AuthAction, withAuthUser } from "next-firebase-auth";
+import { Button, Container } from "@mui/material";
 
-const LoginPage: NextPageWithLayout = () => {
-  return <Container>Login</Container>;
+import useFirebaseAuth from "../src/common/Auth/useFirebaseAuth";
+
+const LoginPage = () => {
+  const { signInWithGoogle } = useFirebaseAuth();
+  return (
+    <Container>
+      <Button onClick={signInWithGoogle}>Google</Button>
+    </Container>
+  );
 };
 
-export default LoginPage;
+export default withAuthUser({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})(LoginPage);

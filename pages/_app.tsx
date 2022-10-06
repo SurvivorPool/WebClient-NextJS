@@ -10,6 +10,7 @@ import type { NextPage } from "next";
 import { PageContainer } from "../src/Layout/PageContainer";
 import { ThemeProvider } from "@mui/material/styles";
 import createEmotionCache from "../src/createEmotionCache";
+import initAuth from "../src/utils/initAuth";
 import theme from "../src/theme";
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -28,6 +29,7 @@ type AppStateContainerProps = {
   emotionCache: EmotionCache;
 };
 
+initAuth();
 const AppStateContainer: FC<PropsWithChildren<AppStateContainerProps>> = ({
   children,
   emotionCache,
