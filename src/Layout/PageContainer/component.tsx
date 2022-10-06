@@ -9,15 +9,15 @@ export const PageContainer: FC<PropsWithChildren> = ({
   ...props
 }) => {
   return (
-    <Container maxWidth={false}>
+    <Container
+      maxWidth={false}
+      disableGutters
+      sx={{
+        position: "relative",
+      }}
+    >
       <Header />
-      <Container
-        sx={{
-          paddingY: "40px",
-        }}
-      >
-        {children}
-      </Container>
+      {children}
       <Footer />
     </Container>
   );

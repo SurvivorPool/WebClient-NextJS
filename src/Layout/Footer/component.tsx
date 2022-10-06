@@ -43,7 +43,7 @@ export const Footer: FC = () => {
                 <ListItem key={link.href}>
                   <Link href={link.href}>
                     <Typography
-                      sx={({ colors, fonts }) => ({
+                      sx={({ colors }) => ({
                         color: colors.burntOrange,
                         fontSize: "0.875rem",
 

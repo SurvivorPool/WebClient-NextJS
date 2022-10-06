@@ -1,7 +1,18 @@
 import "../src/styles.css";
 
 import { CacheProvider, EmotionCache } from "@emotion/react";
-import type { FC, PropsWithChildren, ReactElement, ReactNode } from "react";
+import {
+  FC,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  useState,
+} from "react";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 
 import type { AppProps } from "next/app";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -27,20 +38,27 @@ type AppPropsWithLayout = AppProps & {
 
 type AppStateContainerProps = {
   emotionCache: EmotionCache;
+  pageProps: any;
 };
 
 initAuth();
 const AppStateContainer: FC<PropsWithChildren<AppStateContainerProps>> = ({
   children,
   emotionCache,
+  pageProps,
 }) => {
+  const [queryClient] = useState(new QueryClient());
   return (
-    <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </CacheProvider>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
+        </CacheProvider>
+      </Hydrate>
+    </QueryClientProvider>
   );
 };
 
@@ -53,7 +71,7 @@ export default function MyApp({
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return getLayout(
-    <AppStateContainer emotionCache={emotionCache}>
+    <AppStateContainer emotionCache={emotionCache} pageProps={pageProps}>
       <Head>
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
