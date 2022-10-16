@@ -1,7 +1,14 @@
+import { Container } from "@mui/material";
+import { Header } from "../src/Layout/Header";
 import { NextPageWithLayout } from "../pages/_app";
 
 const HomePage: NextPageWithLayout = () => {
-  return <div>Home</div>;
+  return (
+    <Container>
+      <Header />
+      Home
+    </Container>
+  );
 };
 
 export default HomePage;
