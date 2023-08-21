@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Burger,
   Container,
@@ -11,6 +10,7 @@ import {
 import { FC, ReactNode, useState } from "react";
 
 import Nav from "./Nav";
+import Profile from "./Profile";
 
 interface AppShellProps {
   children: ReactNode;
@@ -18,6 +18,7 @@ interface AppShellProps {
 
 const AppShell: FC<AppShellProps> = ({ children }) => {
   const [isBurgerOpened, setBurgerOpened] = useState(false);
+
   return (
     <MantineAppShell
       padding="md"
@@ -71,8 +72,7 @@ const AppShell: FC<AppShellProps> = ({ children }) => {
               marginRight: "16px",
             }}
           >
-            {/* TODO: Account Avatar */}
-            <Avatar radius="xl" />
+            <Profile />
           </Box>
         </Header>
       }
@@ -87,6 +87,7 @@ const AppShell: FC<AppShellProps> = ({ children }) => {
       })}
     >
       <Container
+        size="xl"
         sx={{
           marginTop: "24px",
         }}

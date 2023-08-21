@@ -6,7 +6,9 @@ import { League } from "@/types";
 import useGetLeaguesByUser from "@/hooks/useGetLeaguesByUser";
 
 const MyLeagues: FC = () => {
-  const { data, isLoading, error } = useGetLeaguesByUser("test"); // TODO: user_id
+  const { data, isLoading, error } = useGetLeaguesByUser(
+    "e4a62fa5-40c7-4593-8f8e-7ddede551924"
+  ); // TODO: user_id
   const leagues = data?.leagues || [];
 
   if (isLoading) return <Loader />;

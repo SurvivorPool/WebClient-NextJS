@@ -1,4 +1,7 @@
 import { Container } from "@mantine/core";
+import Head from "next/head";
+import LandingLayout from "@/components/layout/LandingLayout";
+import { ReactNode } from "react";
 
 const PrivacyPolicy = () => (
   <Container>
@@ -124,5 +127,16 @@ const PrivacyPolicy = () => (
     </p>
   </Container>
 );
+
+PrivacyPolicy.getLayout = function getLayout(page: ReactNode) {
+  return (
+    <>
+      <Head>
+        <title>SurvivorPool</title>
+      </Head>
+      <LandingLayout>{page}</LandingLayout>
+    </>
+  );
+};
 
 export default PrivacyPolicy;

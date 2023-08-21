@@ -1,4 +1,7 @@
 import { Container } from "@mantine/core";
+import Head from "next/head";
+import LandingLayout from "@/components/layout/LandingLayout";
+import { ReactNode } from "react";
 
 const Terms = () => (
   <Container>
@@ -287,5 +290,16 @@ const Terms = () => (
     </ul>
   </Container>
 );
+
+Terms.getLayout = function getLayout(page: ReactNode) {
+  return (
+    <>
+      <Head>
+        <title>SurvivorPool</title>
+      </Head>
+      <LandingLayout>{page}</LandingLayout>
+    </>
+  );
+};
 
 export default Terms;

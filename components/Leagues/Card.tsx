@@ -42,6 +42,7 @@ const Card: FC<CardProps> = ({ league }) => {
         background: `linear-gradient(to right, ${theme.colors.orange[5]}, ${theme.colors.yellow[5]})`,
         cursor: "pointer",
         borderRadius: "4px",
+        maxWidth: "350px",
 
         "&:hover": {
           transform: "scale(1.02) perspective(0px)",
@@ -76,9 +77,18 @@ const Card: FC<CardProps> = ({ league }) => {
             marginTop: "8px",
           }}
         >
-          <Box>
-            <Title order={3}>{league.name}</Title>
+          <Box
+            sx={{
+              height: "120px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Title lineClamp={2} order={3}>
+              {league.name}
+            </Title>
             <Text
+              lineClamp={2}
               sx={(theme) => ({
                 color: theme.colors.gray[6],
               })}

@@ -5,6 +5,7 @@ const useGetTeamById = (id: string) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/player_teams/${id}`
     );
+    return res.json();
   };
 
   const { data, isLoading, error } = useQuery({

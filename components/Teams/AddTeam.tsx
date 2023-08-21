@@ -6,7 +6,9 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useCallback, useState } from "react";
+
+import useCreateTeam from "@/hooks/useCreateTeam";
 
 interface AddTeamProps {
   leagueId: string;
@@ -14,11 +16,20 @@ interface AddTeamProps {
 }
 
 const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick }) => {
+  const { mutate } = useCreateTeam();
   const [teamName, setTeamName] = useState("");
 
   const onTeamNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTeamName(event.currentTarget.value);
   };
+
+  const onCreateClick = useCallback(async () => {
+    mutate({
+      userId: "e4a62fa5-40c7-4593-8f8e-7ddede551924", // TODO: user_id
+      leagueId,
+      teamName,
+    });
+  }, [leagueId, teamName, mutate]);
 
   return (
     <Card shadow="sm" padding={"xl"}>
@@ -52,7 +63,11 @@ const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick }) => {
           }}
         />
         <Box w={140}>
-          <Button fullWidth disabled={teamName?.length <= 5}>
+          <Button
+            onClick={onCreateClick}
+            fullWidth
+            disabled={teamName?.length <= 5}
+          >
             Create
           </Button>
         </Box>
