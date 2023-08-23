@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const links = [
   {
@@ -91,7 +92,11 @@ interface NavProps {
 
 const Nav: FC<NavProps> = ({ hidden, setBurgerOpened }) => {
   const router = useRouter();
+
+  const { data: session } = useSession();
   const currentPath = router.pathname;
+  const shouldShowNavLinks = true; // TODO !!session;
+
   return (
     <Navbar
       height={"100%"}
@@ -122,16 +127,17 @@ const Nav: FC<NavProps> = ({ hidden, setBurgerOpened }) => {
               gap: "8px",
             }}
           >
-            {links.map(({ link, label, icon }) => (
-              <NavLink
-                key={link}
-                href={link}
-                label={label}
-                icon={() => (icon ? icon : null)}
-                isActive={currentPath.includes(link)}
-                setBurgerOpened={setBurgerOpened}
-              />
-            ))}
+            {shouldShowNavLinks &&
+              links.map(({ link, label, icon }) => (
+                <NavLink
+                  key={link}
+                  href={link}
+                  label={label}
+                  icon={() => (icon ? icon : null)}
+                  isActive={currentPath.includes(link)}
+                  setBurgerOpened={setBurgerOpened}
+                />
+              ))}
           </Navbar.Section>
         </Box>
         <Navbar.Section

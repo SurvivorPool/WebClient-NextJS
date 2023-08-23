@@ -12,6 +12,7 @@ import {
 
 import AddTeam from "@/components/Teams/AddTeam";
 import Info from "@/components/Leagues/Info";
+import Teams from "@/components/Leagues/Teams";
 import { currencyFormatter } from "@/utils/formatters";
 import useGetLeaguesById from "@/hooks/useGetLeagueById";
 import { useRouter } from "next/router";
@@ -115,6 +116,7 @@ const Leagues = () => {
           <Info label="Buy-In" value={displayPrice} />
         </SimpleGrid>
       </Card>
+      <Teams teams={data.teams} />
     </Box>
   );
 };
