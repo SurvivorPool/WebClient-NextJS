@@ -2,7 +2,7 @@ import { Box, Divider, SimpleGrid, Text, Title } from "@mantine/core";
 
 import Card from "@/components/Teams/Card";
 import Head from "next/head";
-import { Inter } from "next/font/google";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 
 const mockTeams = [
   {
@@ -40,6 +40,7 @@ const mockTeams = [
 ];
 
 const Teams = () => {
+  useAuthRedirect();
   return (
     <>
       <Box>
@@ -60,4 +61,5 @@ const Teams = () => {
     </>
   );
 };
+
 export default Teams;
