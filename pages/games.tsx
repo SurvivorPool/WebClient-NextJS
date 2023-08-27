@@ -1,14 +1,23 @@
-import { Box, Divider, Loader, Title } from "@mantine/core";
+import { Box, Button, Divider, Loader, Title } from "@mantine/core";
 
 import GamesList from "@/components/Games/GamesList";
+import { useCallback } from "react";
 import useGetGames from "@/hooks/useGetGames";
+import { useRouter } from "next/router";
 
 const Games = () => {
+  const router = useRouter();
   const { data, isLoading, error } = useGetGames();
 
   if (isLoading) {
     return <Loader />;
   }
+
+  const onBackToTeamClick = useCallback(() => {
+    if (router.query.team_id) {
+      router.push(`/team/${router.query.team_id}`);
+    }
+  }, [router.query.team_id]);
 
   return (
     <Box
@@ -18,9 +27,23 @@ const Games = () => {
         gap: "16px",
       }}
     >
-      <Title order={4}>This week's games</Title>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Title order={4}>This week's games</Title>
+        <Button variant="outline" onClick={onBackToTeamClick}>
+          Back to Team
+        </Button>
+      </Box>
       <Divider />
-      <GamesList games={data?.games} />
+      <GamesList
+        games={data?.games}
+        playerTeamId={router.query.team_id as string}
+      />
     </Box>
   );
 };

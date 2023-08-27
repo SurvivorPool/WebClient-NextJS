@@ -7,14 +7,19 @@ import PickModal from "./PickModal";
 
 interface GamesListProps {
   games: Array<GameType>;
+  playerTeamId: string;
 }
 
-const GamesList: FC<GamesListProps> = ({ games }) => {
+const GamesList: FC<GamesListProps> = ({ games, playerTeamId }) => {
   const [pickInfo, setPickInfo] = useState<{
     gameId: number;
     teamName: string;
     teamAbbrev: string;
-  }>();
+  }>({
+    gameId: 0,
+    teamName: "",
+    teamAbbrev: "",
+  });
   const [isModalOpened, setModalOpen] = useState(false);
 
   const onMakePickClick = (
@@ -36,6 +41,7 @@ const GamesList: FC<GamesListProps> = ({ games }) => {
         isOpen={isModalOpened}
         onClose={() => setModalOpen(false)}
         pickInfo={pickInfo}
+        playerTeamId={playerTeamId}
       />
       <SimpleGrid cols={1}>
         {games.map((game) => (
