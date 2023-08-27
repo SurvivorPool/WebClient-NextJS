@@ -27,6 +27,7 @@ const useGetLeagueById = (id: string) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["getLeaguesById", id],
     queryFn: () => getLeaguesByIDFn(id),
+    enabled: !!id,
   });
 
   return { data, isLoading, error };
