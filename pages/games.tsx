@@ -9,15 +9,15 @@ const Games = () => {
   const router = useRouter();
   const { data, isLoading, error } = useGetGames();
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   const onBackToTeamClick = useCallback(() => {
     if (router.query.team_id) {
       router.push(`/team/${router.query.team_id}`);
     }
   }, [router.query.team_id]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Box
