@@ -9,7 +9,6 @@ export type User = {
   full_name: string;
   id: string;
   is_admin: boolean;
-  picture_url: string;
   receive_notifications: boolean;
   wins: number;
 };

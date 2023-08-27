@@ -20,6 +20,11 @@ const Profile: FC = () => {
     );
   }
 
+  const { user } = session;
+
+  // @ts-ignore
+  const initial = (user.name[0] || "u").toUpperCase();
+
   return (
     <Box
       sx={{
@@ -28,7 +33,9 @@ const Profile: FC = () => {
         gap: "24px",
       }}
     >
-      <Avatar radius="xl" />
+      <Avatar radius="xl" color="orange">
+        {initial}
+      </Avatar>
       <Button onClick={() => signOut({ callbackUrl: "/" })}>Sign Out</Button>
     </Box>
   );

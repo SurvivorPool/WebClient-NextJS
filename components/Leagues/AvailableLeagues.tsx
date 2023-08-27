@@ -27,7 +27,7 @@ const AvailableLeagues: FC = () => {
           ]}
         >
           {leagues.map((league: any) => (
-            <Card league={league} key={league.name} />
+            <Card league={league} key={`Available-${league.id}`} />
           ))}
         </SimpleGrid>
       ) : (

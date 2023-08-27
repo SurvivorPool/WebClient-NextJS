@@ -35,7 +35,7 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
               gap: "8px",
             }}
           >
-            <Avatar radius="xl" src={team.user.picture_url} />
+            <Avatar radius="xl">{team.user.full_name[0].toUpperCase()}</Avatar>
             <Text fz="sm">{team.user.full_name}</Text>
           </Box>
         </td>

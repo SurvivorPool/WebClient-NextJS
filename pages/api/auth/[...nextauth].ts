@@ -3,6 +3,39 @@
 import CognitoProvider from "next-auth/providers/cognito";
 import NextAuth from "next-auth";
 
+const existenceCheck = async (userId: string) => {
+  const exists = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/users/exists/${userId}`,
+    {
+      method: "GET",
+    }
+  );
+
+  return exists.json();
+};
+
+const userCreation = async (user: {
+  id: string;
+  email: string;
+  name: string;
+  picture: string;
+}) => {
+  const profilePost = {
+    id: user.id,
+    email: user.email,
+    full_name: user.name,
+    receive_notifications: true,
+  };
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(profilePost),
+  });
+  return res.json();
+};
+
 export const authOptions = {
   providers: [
     CognitoProvider({
@@ -12,14 +45,26 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      console.log("SIGN IN", user, account, profile, email, credentials);
+    async signIn({ user }) {
+      const { exists } = await existenceCheck(user.id);
+      console.log(exists, "EXISTS");
+
+      if (exists) {
+        console.log("user exists", user);
+        return true;
+      } else {
+        console.log("creating user", user);
+        const post = await userCreation(user);
+        console.log(post, "POST");
+      }
+
       return true;
     },
 
-    async jwt({ token, account }) {
+    async jwt({ token, account, profile }) {
       if (account) {
         token.accessToken = account.access_token;
+        token.id = profile.sub;
       }
       return token;
     },
@@ -27,6 +72,7 @@ export const authOptions = {
     async session({ session, token }) {
       if (token) {
         session.accessToken = token.accessToken;
+        session.user_id = token.id;
       }
       return session;
     },

@@ -5,18 +5,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 interface mutationFnProps {
-  userId: string;
   leagueId: string;
   teamName: string;
 }
 
 const useCreateTeam = () => {
   const router = useRouter();
-  const mutationFn = async ({
-    userId,
-    leagueId,
-    teamName,
-  }: mutationFnProps) => {
+  const mutationFn = async ({ leagueId, teamName }: mutationFnProps) => {
     {
       const session = await getSession();
 
@@ -31,7 +26,7 @@ const useCreateTeam = () => {
           Authorization: `Bearer ${session.accessToken}`,
         },
         body: JSON.stringify({
-          user_id: userId,
+          user_id: session.user_id,
           league_id: leagueId,
           name: teamName,
         }),

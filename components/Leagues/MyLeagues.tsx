@@ -4,11 +4,10 @@ import Card from "@/components/Leagues/Card";
 import { FC } from "react";
 import { League } from "@/types";
 import useGetLeaguesByUser from "@/hooks/useGetLeaguesByUser";
+import { useSession } from "next-auth/react";
 
 const MyLeagues: FC = () => {
-  const { data, isLoading, error } = useGetLeaguesByUser(
-    "e4a62fa5-40c7-4593-8f8e-7ddede551924"
-  ); // TODO: user_id
+  const { data, isLoading, error } = useGetLeaguesByUser();
   const leagues = data?.leagues || [];
 
   if (isLoading) return <Loader />;
@@ -26,7 +25,7 @@ const MyLeagues: FC = () => {
           ]}
         >
           {leagues?.map((league: League) => (
-            <Card league={league} key={league.name} />
+            <Card league={league} key={`Mine-${league.id}`} />
           ))}
         </SimpleGrid>
       ) : (

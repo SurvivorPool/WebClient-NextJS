@@ -25,7 +25,6 @@ const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick }) => {
 
   const onCreateClick = useCallback(async () => {
     mutate({
-      userId: "e4a62fa5-40c7-4593-8f8e-7ddede551924", // TODO: user_id
       leagueId,
       teamName,
     });

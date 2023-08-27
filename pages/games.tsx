@@ -1,11 +1,9 @@
 import { Box, Divider, Loader, Title } from "@mantine/core";
 
 import GamesList from "@/components/Games/GamesList";
-import useAuthRedirect from "@/hooks/useAuthRedirect";
 import useGetGames from "@/hooks/useGetGames";
 
 const Games = () => {
-  useAuthRedirect();
   const { data, isLoading, error } = useGetGames();
 
   if (isLoading) {
