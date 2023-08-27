@@ -1,9 +1,9 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 
 const Dashboard = () => {
+  useAuthRedirect();
   return <>hello</>;
 };
+
 export default Dashboard;

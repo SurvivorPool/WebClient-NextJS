@@ -10,10 +10,12 @@ import {
   Title,
 } from "@mantine/core";
 
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 import useGetTeamById from "@/hooks/useGetTeamById";
 import { useRouter } from "next/router";
 
 const Team = () => {
+  useAuthRedirect();
   const router = useRouter();
   const { data, isLoading, error } = useGetTeamById(router.query.id as string);
 

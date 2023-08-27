@@ -14,11 +14,13 @@ import AddTeam from "@/components/Teams/AddTeam";
 import Info from "@/components/Leagues/Info";
 import Teams from "@/components/Leagues/Teams";
 import { currencyFormatter } from "@/utils/formatters";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 import useGetLeaguesById from "@/hooks/useGetLeagueById";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 const Leagues = () => {
+  useAuthRedirect();
   const router = useRouter();
   const [isAddingTeam, setIsAddingTeam] = useState(false);
   const { data, isLoading, error } = useGetLeaguesById(
@@ -120,4 +122,5 @@ const Leagues = () => {
     </Box>
   );
 };
+
 export default Leagues;

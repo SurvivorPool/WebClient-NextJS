@@ -7,7 +7,17 @@ const Profile: FC = () => {
   const { data: session } = useSession();
 
   if (!session) {
-    return <Button onClick={() => signIn()}>Sign In</Button>;
+    return (
+      <Button
+        onClick={() =>
+          signIn(undefined, {
+            callbackUrl: "/leagues",
+          })
+        }
+      >
+        Sign In
+      </Button>
+    );
   }
 
   return (
@@ -19,7 +29,7 @@ const Profile: FC = () => {
       }}
     >
       <Avatar radius="xl" />
-      <Button onClick={() => signOut()}>Sign Out</Button>
+      <Button onClick={() => signOut({ callbackUrl: "/" })}>Sign Out</Button>
     </Box>
   );
 };
