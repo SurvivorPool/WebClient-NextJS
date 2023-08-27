@@ -24,7 +24,7 @@ const Team = () => {
   };
 
   const onPickClick = () => {
-    router.push(`/games`); // TODO pass team id
+    router.push(`/games?team_id=${router.query.id}`);
   };
 
   return (

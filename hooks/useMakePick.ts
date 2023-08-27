@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 interface mutationFnProps {
   playerTeamId: string;
-  gameId: string;
+  gameId: number;
   nflTeamName: string;
 }
 

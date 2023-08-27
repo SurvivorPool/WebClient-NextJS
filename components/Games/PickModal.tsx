@@ -14,15 +14,36 @@ import useMakePick from "@/hooks/useMakePick";
 interface PickModalProps {
   isOpen: boolean;
   onClose: () => void;
-  pickInfo?: {
+  playerTeamId: string;
+  pickInfo: {
     gameId: number;
     teamName: string;
     teamAbbrev: string;
   };
 }
 
-const PickModal: FC<PickModalProps> = ({ isOpen, onClose, pickInfo }) => {
+const PickModal: FC<PickModalProps> = ({
+  isOpen,
+  onClose,
+  pickInfo,
+  playerTeamId,
+}) => {
   const { mutate } = useMakePick();
+
+  const onConfirmClick = () => {
+    mutate(
+      {
+        playerTeamId,
+        gameId: pickInfo?.gameId,
+        nflTeamName: pickInfo?.teamName,
+      },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
+  };
 
   return (
     <Modal opened={isOpen} onClose={onClose} title="Make a pick">
@@ -41,8 +62,10 @@ const PickModal: FC<PickModalProps> = ({ isOpen, onClose, pickInfo }) => {
               gap: "16px",
             }}
           >
-            <Button>Confirm</Button>
-            <Button variant="outline">Cancel</Button>
+            <Button onClick={onConfirmClick}>Confirm</Button>
+            <Button variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
           </Flex>
         </Box>
       )}
