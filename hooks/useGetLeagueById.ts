@@ -1,36 +1,18 @@
 // @ts-nocheck
 
-import { getSession } from "next-auth/react";
+import apiFetch from "@/utils/apiFetch";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 
 const useGetLeagueById = (id: string) => {
-  const router = useRouter();
   const getLeaguesByIDFn = async (id: string) => {
-    const session = await getSession();
-
-    if (!session || session.status === "unauthenticated") {
-      router.push("/");
-    }
-
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/leagues/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
-      }
-    );
-    return res.json();
+    return await apiFetch(`leagues/${id}`);
   };
 
-  const { data, isLoading, error } = useQuery({
+  return useQuery({
     queryKey: ["getLeaguesById", id],
     queryFn: () => getLeaguesByIDFn(id),
     enabled: !!id,
   });
-
-  return { data, isLoading, error };
 };
 
 export default useGetLeagueById;

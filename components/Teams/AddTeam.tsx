@@ -13,9 +13,10 @@ import useCreateTeam from "@/hooks/useCreateTeam";
 interface AddTeamProps {
   leagueId: string;
   onCancelClick: () => void;
+  onAddTeam: () => void;
 }
 
-const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick }) => {
+const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick, onAddTeam }) => {
   const { mutate } = useCreateTeam();
   const [teamName, setTeamName] = useState("");
 
@@ -24,11 +25,19 @@ const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick }) => {
   };
 
   const onCreateClick = useCallback(async () => {
-    mutate({
-      leagueId,
-      teamName,
-    });
-  }, [leagueId, teamName, mutate]);
+    mutate(
+      {
+        leagueId,
+        teamName,
+      },
+      {
+        onSuccess: () => {
+          setTeamName("");
+          onAddTeam();
+        },
+      }
+    );
+  }, [leagueId, teamName, mutate, onAddTeam]);
 
   return (
     <Card shadow="sm" padding={"xl"}>

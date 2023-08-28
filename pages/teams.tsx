@@ -60,4 +60,6 @@ const Teams = () => {
   );
 };
 
+Teams.auth = true;
+
 export default Teams;

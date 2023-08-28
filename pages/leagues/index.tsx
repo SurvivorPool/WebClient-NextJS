@@ -1,7 +1,8 @@
 import AvailableLeagues from "@/components/Leagues/AvailableLeagues";
 import MyLeagues from "@/components/Leagues/MyLeagues";
 
-const Leagues = () => {
+// @ts-ignore
+const Leagues = ({ session }) => {
   return (
     <>
       <MyLeagues />
@@ -9,5 +10,7 @@ const Leagues = () => {
     </>
   );
 };
+
+Leagues.auth = true;
 
 export default Leagues;

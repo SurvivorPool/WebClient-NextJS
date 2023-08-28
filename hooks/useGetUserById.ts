@@ -3,14 +3,14 @@
 import apiFetch from "@/utils/apiFetch";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetTeamById = (id: string) => {
-  const getTeamByIdFn = async (id: string) => {
-    return await apiFetch(`player_teams/${id}`);
+const useGetUserById = (id: string) => {
+  const getUserByIdFn = async (id: string) => {
+    return await apiFetch(`users/${id}`);
   };
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["getTeamById", id],
-    queryFn: () => getTeamByIdFn(id),
+    queryKey: ["getUserById", id],
+    queryFn: () => getUserByIdFn(id),
     enabled: !!id,
   });
 
@@ -21,4 +21,4 @@ const useGetTeamById = (id: string) => {
   };
 };
 
-export default useGetTeamById;
+export default useGetUserById;
