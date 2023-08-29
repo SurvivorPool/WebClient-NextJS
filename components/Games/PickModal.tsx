@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Modal,
-  SimpleGrid,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Box, Button, Flex, Modal, Text, Title } from "@mantine/core";
 
 import { FC } from "react";
 import useMakePick from "@/hooks/useMakePick";

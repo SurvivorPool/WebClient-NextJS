@@ -1,14 +1,34 @@
-import { Box, Divider, Loader, SimpleGrid, Text, Title } from "@mantine/core";
+import { Box, Divider, SimpleGrid, Text, Title } from "@mantine/core";
 
 import Card from "@/components/Leagues/Card";
+import CardSkeleton from "./Skeleton";
 import { FC } from "react";
+import { League } from "@/types";
 import useGetLeagues from "@/hooks/useGetLeagues";
+
+const LeagueGrid: FC<{ leagues: Array<League> }> = ({ leagues }) => {
+  return leagues?.length > 0 ? (
+    <SimpleGrid
+      spacing={"md"}
+      breakpoints={[
+        { minWidth: "sm", cols: 2 },
+        { minWidth: "md", cols: 3 },
+      ]}
+    >
+      {leagues?.map((league: League) => (
+        <Card league={league} key={`Mine-${league.id}`} />
+      ))}
+    </SimpleGrid>
+  ) : (
+    <Box>
+      <Text> No Leagues Available</Text>
+    </Box>
+  );
+};
 
 const AvailableLeagues: FC = () => {
   const { data, isLoading, error } = useGetLeagues();
   const leagues = data?.leagues || [];
-
-  if (isLoading) return <Loader />;
 
   return (
     <Box
@@ -18,7 +38,7 @@ const AvailableLeagues: FC = () => {
     >
       <Title order={3}>Leagues Available</Title>
       <Divider my={"16px"} />
-      {leagues?.length > 0 ? (
+      {isLoading ? (
         <SimpleGrid
           spacing={"md"}
           breakpoints={[
@@ -26,14 +46,10 @@ const AvailableLeagues: FC = () => {
             { minWidth: "md", cols: 3 },
           ]}
         >
-          {leagues.map((league: any) => (
-            <Card league={league} key={`Available-${league.id}`} />
-          ))}
+          <CardSkeleton />
         </SimpleGrid>
       ) : (
-        <Box>
-          <Text> No Leagues Available</Text>
-        </Box>
+        <LeagueGrid leagues={leagues} />
       )}
     </Box>
   );

@@ -23,6 +23,7 @@ export type Team = {
   user_id: string;
   current_pick: string;
   user: User;
+  league: League;
 };
 
 export type League = {

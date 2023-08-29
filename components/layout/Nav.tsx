@@ -1,6 +1,7 @@
 import { Box, Button, Navbar, Text } from "@mantine/core";
-import { FC, ReactSVGElement } from "react";
+import { FC, ReactSVGElement, useMemo } from "react";
 import {
+  IconBackhoe,
   IconBallAmericanFootball,
   IconClipboardList,
   IconMessageDots,
@@ -9,15 +10,15 @@ import {
 
 import Link from "next/link";
 import ThemeSwitcher from "./ThemeSwitcher";
+import useIsAdmin from "@/hooks/useIsAdmin";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 
 const links = [
-  {
-    link: "/summary",
-    label: "Summary",
-    icon: <IconClipboardList color="#c1582d" strokeWidth={2} size={24} />,
-  },
+  // {
+  //   link: "/summary",
+  //   label: "Summary",
+  //   icon: <IconClipboardList color="#c1582d" strokeWidth={2} size={24} />,
+  // },
   {
     link: "/leagues",
     label: "Leagues",
@@ -25,15 +26,23 @@ const links = [
       <IconBallAmericanFootball color="#c1582d" strokeWidth={2} size={24} />
     ),
   },
+  // {
+  //   link: "/teams",
+  //   label: "Teams",
+  //   icon: <IconShirtSport color="#c1582d" strokeWidth={2} size={24} />,
+  // },
+  // {
+  //   link: "/notifications",
+  //   label: "Notifications",
+  //   icon: <IconMessageDots color="#c1582d" strokeWidth={2} size={24} />,
+  // },
+];
+
+const adminLinks = [
   {
-    link: "/teams",
-    label: "Teams",
-    icon: <IconShirtSport color="#c1582d" strokeWidth={2} size={24} />,
-  },
-  {
-    link: "/notifications",
-    label: "Notifications",
-    icon: <IconMessageDots color="#c1582d" strokeWidth={2} size={24} />,
+    link: "/admin",
+    label: "Admin Tools",
+    icon: <IconBackhoe color="#c1582d" strokeWidth={2} size={24} />,
   },
 ];
 
@@ -92,10 +101,15 @@ interface NavProps {
 
 const Nav: FC<NavProps> = ({ hidden, setBurgerOpened }) => {
   const router = useRouter();
-
-  const { data: session } = useSession();
   const currentPath = router.pathname;
-  const shouldShowNavLinks = true; // TODO !!session;
+  const { data: isAdmin } = useIsAdmin();
+
+  const linksToRender = useMemo(() => {
+    if (isAdmin) {
+      return [...links, ...adminLinks];
+    }
+    return links;
+  }, [isAdmin]);
 
   return (
     <Navbar
@@ -127,17 +141,16 @@ const Nav: FC<NavProps> = ({ hidden, setBurgerOpened }) => {
               gap: "8px",
             }}
           >
-            {shouldShowNavLinks &&
-              links.map(({ link, label, icon }) => (
-                <NavLink
-                  key={link}
-                  href={link}
-                  label={label}
-                  icon={() => (icon ? icon : null)}
-                  isActive={currentPath.includes(link)}
-                  setBurgerOpened={setBurgerOpened}
-                />
-              ))}
+            {linksToRender.map(({ link, label, icon }) => (
+              <NavLink
+                key={link}
+                href={link}
+                label={label}
+                icon={() => (icon ? icon : null)}
+                isActive={currentPath.includes(link)}
+                setBurgerOpened={setBurgerOpened}
+              />
+            ))}
           </Navbar.Section>
         </Box>
         <Navbar.Section

@@ -48,4 +48,6 @@ const Games = () => {
   );
 };
 
+Games.auth = true;
+
 export default Games;

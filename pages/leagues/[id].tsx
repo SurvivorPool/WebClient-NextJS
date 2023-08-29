@@ -21,7 +21,7 @@ import { useState } from "react";
 const Leagues = () => {
   const router = useRouter();
   const [isAddingTeam, setIsAddingTeam] = useState(false);
-  const { data, isLoading, error } = useGetLeaguesById(
+  const { data, isLoading, refetch } = useGetLeaguesById(
     router.query.id as string
   );
 
@@ -34,6 +34,11 @@ const Leagues = () => {
   };
 
   const onCancelClick = () => {
+    setIsAddingTeam(false);
+  };
+
+  const onAddTeam = () => {
+    refetch();
     setIsAddingTeam(false);
   };
 
@@ -90,7 +95,11 @@ const Leagues = () => {
       >
         {(styles) => (
           <div style={styles}>
-            <AddTeam leagueId={data.id} onCancelClick={onCancelClick} />
+            <AddTeam
+              leagueId={data.id}
+              onCancelClick={onCancelClick}
+              onAddTeam={onAddTeam}
+            />
           </div>
         )}
       </Transition>
@@ -120,5 +129,7 @@ const Leagues = () => {
     </Box>
   );
 };
+
+Leagues.auth = true;
 
 export default Leagues;

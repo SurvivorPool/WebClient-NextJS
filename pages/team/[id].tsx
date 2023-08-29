@@ -111,4 +111,7 @@ const Team = () => {
     </Box>
   );
 };
+
+Team.auth = true;
+
 export default Team;

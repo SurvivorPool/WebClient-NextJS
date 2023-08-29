@@ -3,22 +3,25 @@ import "../styles/globals.css";
 import {
   ColorScheme,
   ColorSchemeProvider,
+  Loader,
   MantineProvider,
 } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect } from "react";
+import { SessionProvider, signIn, useSession } from "next-auth/react";
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
 
 import { AppProps } from "next/app";
 import AppShell from "@/components/layout/AppShell";
 import Head from "next/head";
+import LandingLayout from "@/components/layout/LandingLayout";
 import { NextPage } from "next";
-import { SessionProvider } from "next-auth/react";
 
 const queryClient = new QueryClient();
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
+  auth?: boolean;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -87,6 +90,30 @@ const BaseProviders = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+function AuthGuard({ children }: { children: ReactNode }) {
+  const { data: session, status } = useSession();
+  const isUser = !!session?.user;
+
+  useEffect(() => {
+    if (status === "loading") {
+      return;
+    }
+    if (!isUser) {
+      signIn();
+    }
+  }, [isUser, status]);
+
+  if (isUser) {
+    return children;
+  }
+
+  return (
+    <LandingLayout>
+      <Loader />
+    </LandingLayout>
+  );
+}
+
 export default function App(props: AppPropsWithLayout) {
   const { Component, pageProps } = props;
 
@@ -107,7 +134,11 @@ export default function App(props: AppPropsWithLayout) {
       </Head>
       <BaseProviders>
         <SessionProvider session={pageProps.session}>
-          {getLayout(<Component {...pageProps} />)}
+          {Component.auth ? (
+            <AuthGuard>{getLayout(<Component {...pageProps} />)}</AuthGuard>
+          ) : (
+            <>{getLayout(<Component {...pageProps} />)}</>
+          )}
         </SessionProvider>
       </BaseProviders>
     </>

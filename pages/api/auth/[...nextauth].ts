@@ -37,6 +37,7 @@ const userCreation = async (user: {
 };
 
 export const authOptions = {
+  secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     CognitoProvider({
       clientId: process.env.COGNITO_CLIENT_ID as string,

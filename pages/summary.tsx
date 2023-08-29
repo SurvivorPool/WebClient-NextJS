@@ -4,4 +4,6 @@ const Dashboard = () => {
   return <>hello</>;
 };
 
+Dashboard.auth = true;
+
 export default Dashboard;
