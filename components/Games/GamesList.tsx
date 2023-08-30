@@ -1,16 +1,17 @@
 import { Box, Button, Modal, SimpleGrid, Text, Title } from "@mantine/core";
 import { FC, useState } from "react";
+import { Game as GameType, Team } from "@/types";
 
 import Game from "./Game";
-import { Game as GameType } from "@/types";
 import PickModal from "./PickModal";
 
 interface GamesListProps {
   games: Array<GameType>;
-  playerTeamId: string;
+  team: Team;
+  onPick: () => void;
 }
 
-const GamesList: FC<GamesListProps> = ({ games, playerTeamId }) => {
+const GamesList: FC<GamesListProps> = ({ games, team, onPick }) => {
   const [pickInfo, setPickInfo] = useState<{
     gameId: number;
     teamName: string;
@@ -41,11 +42,19 @@ const GamesList: FC<GamesListProps> = ({ games, playerTeamId }) => {
         isOpen={isModalOpened}
         onClose={() => setModalOpen(false)}
         pickInfo={pickInfo}
-        playerTeamId={playerTeamId}
+        playerTeamId={team.id}
+        onPick={onPick}
       />
       <SimpleGrid cols={1}>
         {games.map((game) => (
-          <Game key={game.id} game={game} onMakePick={onMakePickClick} />
+          <Game
+            key={game.id}
+            game={game}
+            games={games}
+            onMakePick={onMakePickClick}
+            hasPick={!!team.current_pick}
+            team={team}
+          />
         ))}
       </SimpleGrid>
     </>

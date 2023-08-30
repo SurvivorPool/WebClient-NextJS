@@ -8,13 +8,7 @@ const useGetGames = () => {
     return await apiFetch(`games`);
   };
 
-  const { data, isLoading, error } = useQuery(["getGames"], () => getGamesFn());
-
-  return {
-    data,
-    isLoading,
-    error,
-  };
+  return useQuery(["getGames"], () => getGamesFn());
 };
 
 export default useGetGames;

@@ -8,17 +8,11 @@ const useGetTeamById = (id: string) => {
     return await apiFetch(`player_teams/${id}`);
   };
 
-  const { data, isLoading, error } = useQuery({
+  return useQuery({
     queryKey: ["getTeamById", id],
     queryFn: () => getTeamByIdFn(id),
     enabled: !!id,
   });
-
-  return {
-    data,
-    isLoading,
-    error,
-  };
 };
 
 export default useGetTeamById;
