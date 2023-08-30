@@ -38,7 +38,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  return;
+  return {
+    props: {},
+  };
 }
 
 export default Home;
