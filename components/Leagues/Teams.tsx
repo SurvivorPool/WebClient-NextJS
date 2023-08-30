@@ -39,6 +39,17 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
             <Text fz="sm">{team.user.full_name}</Text>
           </Box>
         </td>
+        <td>
+          {team.active ? (
+            <Text fz="sm" color="green">
+              Active
+            </Text>
+          ) : (
+            <Text fz="sm" color="red">
+              Inactive
+            </Text>
+          )}
+        </td>
         <MediaQuery
           smallerThan={"sm"}
           styles={{
@@ -53,13 +64,14 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
 
   return (
     <Card>
-      <Title order={3}>Registered Teams</Title>
+      <Title order={3}>Other Registered Teams</Title>
       <Table fontSize={"xs"}>
         <thead>
           <tr>
             <th></th>
             <th>Name</th>
             <th>Coach</th>
+            <th>Status</th>
             <MediaQuery
               smallerThan={"sm"}
               styles={{

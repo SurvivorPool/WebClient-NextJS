@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {
   Box,
   Button,
@@ -9,21 +11,56 @@ import {
   Title,
   Transition,
 } from "@mantine/core";
+import { useMemo, useState } from "react";
 
 import AddTeam from "@/components/Teams/AddTeam";
-import Info from "@/components/Leagues/Info";
+import Info from "@/components/Common/Info";
+import MyTeams from "@/components/Leagues/MyTeams";
 import Teams from "@/components/Leagues/Teams";
 import { currencyFormatter } from "@/utils/formatters";
 import useGetLeaguesById from "@/hooks/useGetLeagueById";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const Leagues = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [isAddingTeam, setIsAddingTeam] = useState(false);
   const { data, isLoading, refetch } = useGetLeaguesById(
     router.query.id as string
   );
+
+  const teams = useMemo(() => {
+    const defaultTeams = {
+      usersTeams: [],
+      otherTeams: [],
+    };
+
+    if (!data || !session || isLoading) {
+      return defaultTeams;
+    }
+    const userId = session?.user_id;
+
+    if (!userId) {
+      return defaultTeams;
+    }
+
+    return data?.teams?.reduce(
+      (teamsAcc, team) => {
+        if (team.user_id === userId) {
+          teamsAcc.usersTeams.push(team);
+        } else {
+          teamsAcc.otherTeams.push(team);
+        }
+
+        return teamsAcc;
+      },
+      {
+        usersTeams: [],
+        otherTeams: [],
+      }
+    );
+  }, [data, session, isLoading]);
 
   const onBackClick = () => {
     router.push("/leagues");
@@ -82,11 +119,10 @@ const Leagues = () => {
             </Button>
           )}
           <Button variant="outline" onClick={onBackClick}>
-            Go Back
+            Back to Leagues
           </Button>
         </Box>
       </SimpleGrid>
-      <Divider my={"16px"} />
       <Transition
         mounted={isAddingTeam}
         transition="slide-up"
@@ -125,7 +161,9 @@ const Leagues = () => {
           <Info label="Buy-In" value={displayPrice} />
         </SimpleGrid>
       </Card>
-      <Teams teams={data.teams} />
+      <Divider my={"16px"} />
+      {!!teams?.usersTeams?.length && <MyTeams teams={teams.usersTeams} />}
+      {!!teams?.otherTeams?.length && <Teams teams={teams.otherTeams} />}
     </Box>
   );
 };
