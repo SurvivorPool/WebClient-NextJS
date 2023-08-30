@@ -6,6 +6,7 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 
+import AdvanceWeekSection from "./AdvanceWeek/Section";
 import LeagueSection from "./League/Section";
 import PlayerTeamSection from "./PlayerTeams/Section";
 import { useMediaQuery } from "@mantine/hooks";
@@ -45,7 +46,9 @@ const Dashboard = () => {
         <Card>Users</Card>
       </Tabs.Panel>
       <Tabs.Panel value="advance">
-        <Card>Advance</Card>
+        <Card>
+          <AdvanceWeekSection />
+        </Card>
       </Tabs.Panel>
     </Tabs>
   );
