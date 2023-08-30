@@ -1,5 +1,7 @@
-import { FC } from "react";
-import { Game } from "@/types";
+// @ts-nocheck
+
+import { FC, useMemo } from "react";
+import { Game, Team } from "@/types";
 import { format } from "date-fns";
 
 import { Box, Button, Card, Divider, Flex, Text, Title } from "@mantine/core";
@@ -8,10 +10,19 @@ import { getTeamColor } from "@/utils/teamColors";
 
 interface GameProps {
   game: Game;
+  team: Team;
+  games: Array<Game>;
+  hasPick: boolean;
   onMakePick: (gameId: number, teamName: string, teamAbbrev: string) => void;
 }
 
-const Game: FC<GameProps> = ({ game, onMakePick }) => {
+const Game: FC<GameProps> = ({
+  game,
+  games,
+  team,
+  onMakePick,
+  hasPick = false,
+}) => {
   // TODO: redesign
 
   const awayColor = getTeamColor(game.away_team_info.abbreviation);
@@ -28,6 +39,48 @@ const Game: FC<GameProps> = ({ game, onMakePick }) => {
       return `In Progress | ${game.quarter} - ${game.quarter_time}`;
     }
   };
+
+  const canPick = useMemo(() => {
+    const currentPick = team.current_pick;
+    let canMakePick = true;
+
+    if (currentPick) {
+      const currentPickGame = games.find(
+        (g: Game) =>
+          g.away_team_info.nickname === currentPick ||
+          g.home_team_info.nickname === currentPick
+      );
+      if (currentPickGame?.has_started) {
+        canMakePick = false;
+      }
+    }
+
+    if (game.has_started) {
+      canMakePick = false;
+    }
+
+    if (!canMakePick) {
+      return {
+        canMakePick,
+        canPickHome: false,
+        canPickAway: false,
+      };
+    }
+
+    const homeTeamName = game.home_team_info.nickname;
+    const awayTeamName = game.away_team_info.nickname;
+
+    const canPickHome =
+      currentPick !== homeTeamName && !team.pick_history.includes(homeTeamName);
+    const canPickAway =
+      currentPick !== awayTeamName && !team.pick_history.includes(awayTeamName);
+
+    return {
+      canMakePick,
+      canPickHome,
+      canPickAway,
+    };
+  }, [game, games, team]);
 
   return (
     <Card
@@ -58,7 +111,7 @@ const Game: FC<GameProps> = ({ game, onMakePick }) => {
           <Text c="dimmed">{format(new Date(game.game_date), "PPPP")}</Text>
           <Text c="dimmed">{getGameStatus()}</Text>
         </Flex>
-        <Button variant="subtle">View game details</Button>
+        {/*<Button variant="subtle">View game details</Button>*/}
       </Flex>
       <Box
         sx={{
@@ -112,7 +165,11 @@ const Game: FC<GameProps> = ({ game, onMakePick }) => {
               </Text>
             </Flex>
             <Divider />
-            <Box>
+            <Box
+              sx={{
+                visibility: canPick.canPickAway ? "visible" : "hidden",
+              }}
+            >
               <Button
                 variant="filled"
                 onClick={() =>
@@ -131,7 +188,7 @@ const Game: FC<GameProps> = ({ game, onMakePick }) => {
                   },
                 }}
               >
-                Make Pick
+                {hasPick ? "Change Pick" : "Make Pick"}
               </Button>
             </Box>
           </Card>
@@ -180,7 +237,11 @@ const Game: FC<GameProps> = ({ game, onMakePick }) => {
               </Text>
             </Flex>
             <Divider />
-            <Box>
+            <Box
+              sx={{
+                visibility: canPick.canPickHome ? "visible" : "hidden",
+              }}
+            >
               <Button
                 variant="filled"
                 onClick={() =>
@@ -199,7 +260,7 @@ const Game: FC<GameProps> = ({ game, onMakePick }) => {
                   },
                 }}
               >
-                Make Pick
+                {hasPick ? "Change Pick" : "Make Pick"}
               </Button>
             </Box>
           </Card>

@@ -9,6 +9,7 @@ interface PickModalProps {
   isOpen: boolean;
   onClose: () => void;
   playerTeamId: string;
+  onPick: () => void;
   pickInfo: {
     gameId: number;
     teamName: string;
@@ -21,6 +22,7 @@ const PickModal: FC<PickModalProps> = ({
   onClose,
   pickInfo,
   playerTeamId,
+  onPick,
 }) => {
   const { mutate, isLoading } = useMakePick();
 
@@ -50,6 +52,7 @@ const PickModal: FC<PickModalProps> = ({
             icon: <IconCheck size="1rem" />,
             autoClose: 2000,
           });
+          onPick();
         },
       }
     );
