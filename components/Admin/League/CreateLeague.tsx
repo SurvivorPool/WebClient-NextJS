@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import { ComponentPropsWithoutRef, forwardRef, useMemo, useState } from "react";
 
+import { notifications } from "@mantine/notifications";
 import useAdminLeague from "@/hooks/useAdminLeague";
 
 interface ItemProps extends ComponentPropsWithoutRef<"div"> {
@@ -49,7 +50,9 @@ const CreateLeague = () => {
     price: "",
     type: "",
   });
-  const { data: leagueTypesData, isLoading } = leagueTypes;
+  const { mutate, isLoading: isCreateLeagueLoading } = createLeague;
+  const { data: leagueTypesData, isLoading: isLeagueTypesLoading } =
+    leagueTypes;
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError({
@@ -105,12 +108,27 @@ const CreateLeague = () => {
       });
     }
 
-    await createLeague.mutate({
-      name,
-      typeId: type as string,
-      description,
-      price: parseInt(price as string),
-    });
+    await mutate(
+      {
+        name,
+        typeId: type as string,
+        description,
+        price: parseInt(price as string),
+      },
+      {
+        onSuccess: () => {
+          notifications.show({
+            title: "League Created",
+            message: `${name} has been created successfully.`,
+            color: "green",
+          });
+          setName("");
+          setDescription("");
+          setPrice(0);
+          setType(null);
+        },
+      }
+    );
   };
 
   const isCreateButtonDisabled = useMemo(() => {
@@ -157,7 +175,7 @@ const CreateLeague = () => {
           return `$${value}`;
         }}
       />
-      {isLoading ? (
+      {isLeagueTypesLoading ? (
         <Loader />
       ) : (
         <Select
@@ -180,7 +198,11 @@ const CreateLeague = () => {
         />
       )}
       <Box>
-        <Button disabled={isCreateButtonDisabled} onClick={onCreateConfirm}>
+        <Button
+          loading={isCreateLeagueLoading}
+          disabled={isCreateButtonDisabled}
+          onClick={onCreateConfirm}
+        >
           Create League
         </Button>
       </Box>

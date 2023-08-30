@@ -11,6 +11,7 @@ import {
 import { ChangeEvent, FC, useState } from "react";
 
 import { Team } from "@/types";
+import { notifications } from "@mantine/notifications";
 import useAdminPlayerTeam from "@/hooks/useAdminPlayerTeam";
 
 interface EditModalProps {
@@ -35,6 +36,11 @@ const EditModal: FC<EditModalProps> = ({ isOpen, onClose, team, onEdit }) => {
       },
       {
         onSuccess: () => {
+          notifications.show({
+            title: "Team Updated",
+            message: `${team?.name || ""} has been updated successfully.`,
+            color: "green",
+          });
           onEdit();
           onCloseClick();
         },
@@ -61,6 +67,11 @@ const EditModal: FC<EditModalProps> = ({ isOpen, onClose, team, onEdit }) => {
       },
       {
         onSuccess: () => {
+          notifications.show({
+            title: "Team Deleted",
+            message: `${team?.name || ""} has been deleted successfully.`,
+            color: "green",
+          });
           onEdit();
           onCloseClick();
         },

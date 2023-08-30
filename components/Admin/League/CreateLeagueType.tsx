@@ -1,10 +1,12 @@
 import { Box, Button, Flex, TextInput, Title } from "@mantine/core";
 import { useMemo, useState } from "react";
 
+import { notifications } from "@mantine/notifications";
 import useAdminLeague from "@/hooks/useAdminLeague";
 
 const CreateLeagueType = () => {
   const { createLeagueType } = useAdminLeague();
+  const { mutate, isLoading } = createLeagueType;
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState({
@@ -43,10 +45,23 @@ const CreateLeagueType = () => {
       });
     }
 
-    await createLeagueType.mutate({
-      name,
-      description,
-    });
+    await mutate(
+      {
+        name,
+        description,
+      },
+      {
+        onSuccess: () => {
+          notifications.show({
+            title: "League Type Created",
+            message: `${name} has been created successfully.`,
+            color: "green",
+          });
+          setName("");
+          setDescription("");
+        },
+      }
+    );
   };
 
   const isCreateButtonDisabled = useMemo(() => {
@@ -79,7 +94,11 @@ const CreateLeagueType = () => {
         required
       />
       <Box>
-        <Button disabled={isCreateButtonDisabled} onClick={onLeagueNameConfirm}>
+        <Button
+          loading={isLoading}
+          disabled={isCreateButtonDisabled}
+          onClick={onLeagueNameConfirm}
+        >
           Create League Type
         </Button>
       </Box>
