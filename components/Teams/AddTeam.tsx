@@ -8,6 +8,8 @@ import {
 } from "@mantine/core";
 import { ChangeEvent, FC, useCallback, useState } from "react";
 
+import { IconCheck } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications";
 import useCreateTeam from "@/hooks/useCreateTeam";
 
 interface AddTeamProps {
@@ -17,7 +19,7 @@ interface AddTeamProps {
 }
 
 const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick, onAddTeam }) => {
-  const { mutate } = useCreateTeam();
+  const { mutate, isLoading } = useCreateTeam();
   const [teamName, setTeamName] = useState("");
 
   const onTeamNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +27,14 @@ const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick, onAddTeam }) => {
   };
 
   const onCreateClick = useCallback(async () => {
+    notifications.show({
+      id: "add-team",
+      loading: true,
+      title: "Creating your team",
+      message: "Please wait while we create your team.",
+      autoClose: false,
+      withCloseButton: false,
+    });
     mutate(
       {
         leagueId,
@@ -32,6 +42,14 @@ const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick, onAddTeam }) => {
       },
       {
         onSuccess: () => {
+          notifications.update({
+            id: "add-team",
+            color: "green",
+            title: "Team Created",
+            message: `${teamName} has been created successfully. Good luck!`,
+            icon: <IconCheck size="1rem" />,
+            autoClose: 2000,
+          });
           setTeamName("");
           onAddTeam();
         },
@@ -74,7 +92,7 @@ const AddTeam: FC<AddTeamProps> = ({ leagueId, onCancelClick, onAddTeam }) => {
           <Button
             onClick={onCreateClick}
             fullWidth
-            disabled={teamName?.length <= 5}
+            disabled={teamName?.length <= 5 || isLoading}
           >
             Create
           </Button>

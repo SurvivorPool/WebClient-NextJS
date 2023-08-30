@@ -16,6 +16,7 @@ import AppShell from "@/components/layout/AppShell";
 import Head from "next/head";
 import LandingLayout from "@/components/layout/LandingLayout";
 import { NextPage } from "next";
+import { Notifications } from "@mantine/notifications";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +84,7 @@ const BaseProviders = ({ children }: { children: React.ReactNode }) => {
             primaryColor: "orange",
           }}
         >
+          <Notifications position="top-center" />
           {children}
         </MantineProvider>
       </ColorSchemeProvider>

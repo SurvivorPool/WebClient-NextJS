@@ -27,7 +27,7 @@ const LeagueGrid: FC<{ leagues: Array<League> }> = ({ leagues }) => {
 };
 
 const AvailableLeagues: FC = () => {
-  const { data, isLoading, error } = useGetLeagues();
+  const { data, isLoading } = useGetLeagues();
   const leagues = data?.leagues || [];
 
   return (

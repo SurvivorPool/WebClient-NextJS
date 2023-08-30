@@ -1,4 +1,12 @@
-import { Box, Button, Flex, Skeleton, Table, Text, Title } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Flex,
+  ScrollArea,
+  Skeleton,
+  Table,
+  Text,
+} from "@mantine/core";
 import { FC, useState } from "react";
 
 import EditModal from "./EditModal";
@@ -25,37 +33,39 @@ const Teams: FC<TeamsProps> = ({ teams, isLoading, onEditClick }) => {
   }
 
   return (
-    <Table
-      fontSize={"xs"}
-      sx={{
-        maxHeight: "700px",
-      }}
-    >
-      <thead>
-        <tr>
-          <th>Team</th>
-          <th>Coach</th>
-          <th>League</th>
-          <th>Paid</th>
-          <th>Edit</th>
-        </tr>
-      </thead>
-      <tbody>
-        {teams.map((team) => (
-          <tr key={team.id}>
-            <td>
-              <b>{team.name}</b>
-            </td>
-            <td>{team.user.full_name}</td>
-            <td>{team.league.name}</td>
-            <td>{team.paid ? "Paid" : "Unpaid"}</td>
-            <td>
-              <Button onClick={() => onEditClick(team)}>Edit</Button>
-            </td>
+    <ScrollArea h={300}>
+      <Table
+        fontSize={"xs"}
+        sx={{
+          maxHeight: "700px",
+        }}
+      >
+        <thead>
+          <tr>
+            <th>Team</th>
+            <th>Coach</th>
+            <th>League</th>
+            <th>Paid</th>
+            <th>Edit</th>
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {teams.map((team) => (
+            <tr key={team.id}>
+              <td>
+                <b>{team.name}</b>
+              </td>
+              <td>{team.user.full_name}</td>
+              <td>{team.league.name}</td>
+              <td>{team.paid ? "Paid" : "Unpaid"}</td>
+              <td>
+                <Button onClick={() => onEditClick(team)}>Edit</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </ScrollArea>
   );
 };
 
@@ -79,7 +89,6 @@ const PlayerTeamsList = () => {
 
   return (
     <Flex direction={"column"}>
-      <Title>Player Teams</Title>
       <Teams
         teams={data?.teams || []}
         isLoading={isLoading}
