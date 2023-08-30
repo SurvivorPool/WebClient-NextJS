@@ -20,7 +20,7 @@ const Info: FC<InfoProps> = ({ label, value }) => (
       fz={"sm"}
       sx={(theme) => ({
         fontWeight: 800,
-        color: "rgb(134, 142, 150)",
+        color: theme.colors.gray[5],
       })}
     >
       {label}
