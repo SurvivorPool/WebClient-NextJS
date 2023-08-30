@@ -8,11 +8,7 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 
 const Home: NextPageWithLayout = () => {
-  return (
-    <main>
-      <Title>LANDING PAGE</Title>
-    </main>
-  );
+  return <main></main>;
 };
 
 Home.getLayout = function getLayout(page: ReactNode) {
