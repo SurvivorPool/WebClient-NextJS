@@ -65,25 +65,40 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
   return (
     <Card>
       <Title order={3}>Other Registered Teams</Title>
-      <Table fontSize={"xs"}>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Coach</th>
-            <th>Status</th>
-            <MediaQuery
-              smallerThan={"sm"}
-              styles={{
-                display: "none",
-              }}
-            >
-              <th>Current Pick</th>
-            </MediaQuery>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
+      {!!teams?.length ? (
+        <Table fontSize={"xs"}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Coach</th>
+              <th>Status</th>
+              <MediaQuery
+                smallerThan={"sm"}
+                styles={{
+                  display: "none",
+                }}
+              >
+                <th>Current Pick</th>
+              </MediaQuery>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      ) : (
+        <Box
+          sx={{
+            height: "100px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text c="dimmed" size="lg">
+            No one else has registered for this league yet.
+          </Text>
+        </Box>
+      )}
     </Card>
   );
 };

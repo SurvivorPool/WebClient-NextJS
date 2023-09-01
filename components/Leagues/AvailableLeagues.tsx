@@ -4,7 +4,11 @@ import Card from "@/components/Leagues/Card";
 import CardSkeleton from "./Skeleton";
 import { FC } from "react";
 import { League } from "@/types";
-import useGetLeagues from "@/hooks/useGetLeagues";
+
+interface AvailableLeaguesProps {
+  leagues: Array<League>;
+  isLoading: boolean;
+}
 
 const LeagueGrid: FC<{ leagues: Array<League> }> = ({ leagues }) => {
   return leagues?.length > 0 ? (
@@ -26,10 +30,10 @@ const LeagueGrid: FC<{ leagues: Array<League> }> = ({ leagues }) => {
   );
 };
 
-const AvailableLeagues: FC = () => {
-  const { data, isLoading } = useGetLeagues();
-  const leagues = data?.leagues || [];
-
+const AvailableLeagues: FC<AvailableLeaguesProps> = ({
+  leagues,
+  isLoading,
+}) => {
   return (
     <Box
       sx={{

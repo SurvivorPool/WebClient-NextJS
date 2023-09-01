@@ -6,8 +6,6 @@ import Card from "@/components/Leagues/Card";
 import CardSkeleton from "./Skeleton";
 import { FC } from "react";
 import { League } from "@/types";
-import useGetLeaguesByUser from "@/hooks/useGetLeaguesByUser";
-import { useSession } from "next-auth/react";
 
 const LeagueGrid: FC<{ leagues: Array<League> }> = ({ leagues }) => {
   return leagues?.length > 0 ? (
@@ -32,12 +30,7 @@ const LeagueGrid: FC<{ leagues: Array<League> }> = ({ leagues }) => {
   );
 };
 
-const MyLeagues: FC = () => {
-  const { data: session, status } = useSession();
-  const { data, isLoading } = useGetLeaguesByUser(session?.user_id || null);
-  const leagues = data?.leagues || [];
-  const shouldShowLoading = isLoading || status === "loading";
-
+const MyLeagues: FC = ({ leagues, isLoading }) => {
   return (
     <Box
       sx={{
@@ -46,7 +39,7 @@ const MyLeagues: FC = () => {
     >
       <Title order={3}>My Leagues</Title>
       <Divider my={"16px"} />
-      {shouldShowLoading ? (
+      {isLoading ? (
         <SimpleGrid
           spacing={"md"}
           breakpoints={[
