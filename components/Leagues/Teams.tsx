@@ -6,9 +6,11 @@ import {
   Table,
   Text,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { FC, useMemo } from "react";
 
+import { IconInfoCircle } from "@tabler/icons-react";
 import Link from "next/link";
 import { Team } from "@/types";
 
@@ -56,7 +58,27 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
             display: "none",
           }}
         >
-          <td>{team.current_pick}</td>
+          {!team?.current_pick ? (
+            <td>
+              <Tooltip label="Other players' picks will be revealed when their game begins.">
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "4px",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconInfoCircle size="18" color="#868e96" />
+                  <Text fz="small" color="dimmed">
+                    Unavailable
+                  </Text>
+                </Box>
+              </Tooltip>
+            </td>
+          ) : (
+            <td>{team.current_pick}</td>
+          )}
         </MediaQuery>
       </tr>
     ));
