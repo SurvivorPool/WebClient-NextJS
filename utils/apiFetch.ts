@@ -30,7 +30,6 @@ const apiFetch = async (url: string, options?: any) => {
       message: "Please login again to continue.",
     });
     signIn();
-    throw new Error("Session Expired.");
   }
 
   if (!res.ok) {
@@ -41,7 +40,6 @@ const apiFetch = async (url: string, options?: any) => {
         data?.detail ||
         "Something went wrong, try reloading the page or logging in again.",
     });
-    throw new Error(data?.detail || "Something went wrong.");
   }
 
   return data;

@@ -1,4 +1,4 @@
-import { Card, Table, Text, Title } from "@mantine/core";
+import { Box, Card, Table, Text, Title } from "@mantine/core";
 import { FC, useMemo } from "react";
 
 import Link from "next/link";
@@ -54,18 +54,34 @@ const MyTeams: FC<MyTeamsProps> = ({ teams }) => {
   return (
     <Card>
       <Title order={3}>My Teams</Title>
-      <Table fontSize={"xs"}>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Paid Up</th>
-            <th>Current Pick</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
+      {!!teams?.length ? (
+        <Table fontSize={"xs"}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Paid Up</th>
+              <th>Current Pick</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      ) : (
+        <Box
+          sx={{
+            height: "100px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text c="dimmed" size="lg">
+            You're not registered for this league yet. Click Join League above
+            to compete!
+          </Text>
+        </Box>
+      )}
     </Card>
   );
 };

@@ -162,8 +162,8 @@ const Leagues = () => {
         </SimpleGrid>
       </Card>
       <Divider my={"16px"} />
-      {!!teams?.usersTeams?.length && <MyTeams teams={teams.usersTeams} />}
-      {!!teams?.otherTeams?.length && <Teams teams={teams.otherTeams} />}
+      <MyTeams teams={teams.usersTeams} />
+      <Teams teams={teams.otherTeams} />
     </Box>
   );
 };
