@@ -113,7 +113,7 @@ const Leagues = () => {
             justifyContent: "flex-end",
           }}
         >
-          {!data.signup_active && (
+          {data.signup_active && (
             <Button onClick={onJoinClick} disabled={isAddingTeam}>
               Join League
             </Button>
