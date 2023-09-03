@@ -4,7 +4,12 @@ import LandingLayout from "@/components/layout/LandingLayout";
 import { ReactNode } from "react";
 
 const DataPolicy = () => (
-  <Container>
+  <Container
+    size="xl"
+    sx={{
+      height: "calc(100% - 60px)",
+    }}
+  >
     <h1>Data Policy and Data Deletion Requests</h1>
     <p>Last updated: August 02, 2023</p>
     <h3>Data Deletion Requests</h3>
