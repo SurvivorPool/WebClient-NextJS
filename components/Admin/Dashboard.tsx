@@ -9,6 +9,7 @@ import {
 import AdvanceWeekSection from "./AdvanceWeek/Section";
 import LeagueSection from "./League/Section";
 import PlayerTeamSection from "./PlayerTeams/Section";
+import UserSection from "./Users/Section";
 import { useMediaQuery } from "@mantine/hooks";
 
 const Dashboard = () => {
@@ -43,7 +44,9 @@ const Dashboard = () => {
         </Card>
       </Tabs.Panel>
       <Tabs.Panel value="users">
-        <Card>Users</Card>
+        <Card>
+          <UserSection />
+        </Card>
       </Tabs.Panel>
       <Tabs.Panel value="advance">
         <Card>

@@ -115,7 +115,7 @@ const Leagues = () => {
         >
           {data.signup_active && (
             <Button onClick={onJoinClick} disabled={isAddingTeam}>
-              Join League
+              {!!teams?.usersTeams?.length ? "Add Another Team" : "Join League"}
             </Button>
           )}
           <Button variant="outline" onClick={onBackClick}>

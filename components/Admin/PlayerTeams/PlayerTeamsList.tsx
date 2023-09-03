@@ -7,9 +7,10 @@ import {
   Table,
   Text,
 } from "@mantine/core";
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 
 import EditModal from "./EditModal";
+import Search from "@/components/Common/Search";
 import { Team } from "@/types";
 import useAdminPlayerTeam from "@/hooks/useAdminPlayerTeam";
 
@@ -74,6 +75,7 @@ const PlayerTeamsList = () => {
   const {
     playerTeams: { data, isLoading, refetch },
   } = useAdminPlayerTeam();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const onEditClick = (team: Team) => {
     setEditTeamInfo(team);
@@ -87,10 +89,36 @@ const PlayerTeamsList = () => {
     refetch();
   };
 
+  const onClear = () => {
+    setSearchTerm("");
+  };
+
+  const onSearchInput = (value: string) => {
+    setSearchTerm(value);
+  };
+
+  const teamsToRender = useMemo(() => {
+    if (!data?.teams) {
+      return [];
+    }
+
+    return data.teams.filter((team: Team) => {
+      return (
+        team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        team.user.full_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  }, [data, searchTerm]);
+
   return (
     <Flex direction={"column"}>
+      <Search
+        searchTerm={searchTerm}
+        onSearch={onSearchInput}
+        onClear={onClear}
+      />
       <Teams
-        teams={data?.teams || []}
+        teams={teamsToRender}
         isLoading={isLoading}
         onEditClick={onEditClick}
       />

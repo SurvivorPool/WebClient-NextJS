@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  Header,
-  AppShell as MantineAppShell,
-  MediaQuery,
-  Title,
-} from "@mantine/core";
+import { Box, Header, AppShell as MantineAppShell, Title } from "@mantine/core";
 import { FC, ReactNode, useState } from "react";
 
 import LandingFooter from "./LandingFooter";
@@ -72,16 +65,8 @@ const LandingLayout: FC<LandingLayoutProps> = ({ children }) => {
           },
         })}
       >
-        <Container
-          size="xl"
-          sx={{
-            height: "calc(100% - 60px)",
-          }}
-        >
-          {children}
-        </Container>
+        {children}
       </MantineAppShell>
-      <LandingFooter />
     </>
   );
 };
