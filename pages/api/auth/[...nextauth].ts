@@ -48,15 +48,11 @@ export const authOptions = {
   callbacks: {
     async signIn({ user }) {
       const { exists } = await existenceCheck(user.id);
-      console.log(exists, "EXISTS");
 
       if (exists) {
-        console.log("user exists", user);
         return true;
       } else {
-        console.log("creating user", user);
         const post = await userCreation(user);
-        console.log(post, "POST");
       }
 
       return true;

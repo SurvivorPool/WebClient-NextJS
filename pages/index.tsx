@@ -13,54 +13,58 @@ import { getServerSession } from "next-auth";
 const Home: NextPageWithLayout = () => {
   return (
     <>
-      <main
-        style={{
+      <Box
+        sx={{
           height: "100%",
-          overflow: "hidden",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          bottom: 120,
         }}
       >
         <Box
           sx={{
-            height: "100%",
-            position: "relative",
+            position: "absolute",
+            top: "30%",
+            width: "100%",
             display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             flexDirection: "column",
-            alignItems: "flex-end",
+            gap: "4px",
           }}
         >
-          <Box
+          <Title
+            variant="gradient"
+            gradient={{ from: "#FDC37B", to: "#C1582D", deg: 45 }}
             sx={{
-              position: "absolute",
-              top: "30%",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              gap: "4px",
+              fontFamily: "HappyFox",
+              letterSpacing: "2px",
+              fontSize: "60px",
             }}
+            className="HappyFox"
           >
-            <Title
-              variant="gradient"
-              gradient={{ from: "#FDC37B", to: "#C1582D", deg: 45 }}
-              sx={{
-                fontFamily: "HappyFox",
-                letterSpacing: "2px",
-                fontSize: "60px",
-              }}
-              className="HappyFox"
-            >
-              SurvivorPool
-            </Title>
-            <Text
-              sx={{
-                fontSize: "24px",
-              }}
-              c="dimmed"
-            >
-              Sink or Swim
-            </Text>
-          </Box>
+            SurvivorPool
+          </Title>
+          <Text
+            sx={{
+              fontSize: "24px",
+            }}
+            c="dimmed"
+          >
+            Sink or Swim
+          </Text>
+        </Box>
+        <Box
+          sx={{
+            height: "100%",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+          }}
+        >
           <Wave
             fill="url(#gradient)"
             options={{
@@ -69,8 +73,6 @@ const Home: NextPageWithLayout = () => {
               points: 4,
             }}
             style={{
-              position: "absolute",
-              bottom: 110,
               height: "400px",
             }}
           >
@@ -82,7 +84,7 @@ const Home: NextPageWithLayout = () => {
             </defs>
           </Wave>
         </Box>
-      </main>
+      </Box>
       <LandingFooter />
     </>
   );
