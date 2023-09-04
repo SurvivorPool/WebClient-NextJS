@@ -110,6 +110,7 @@ const Game: FC<GameProps> = ({
         >
           <Text c="dimmed">{format(new Date(game.game_date), "PPPP")}</Text>
           <Text c="dimmed">{getGameStatus()}</Text>
+          <Text c="dimmed">Odds: {game.odds.details}</Text>
         </Flex>
         {/*<Button variant="subtle">View game details</Button>*/}
       </Flex>
