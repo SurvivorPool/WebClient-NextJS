@@ -43,7 +43,6 @@ const CardSkeleton = () => {
             <Skeleton height="40px" />
             <Skeleton height="40px" />
           </Box>
-
           <Divider />
           <Skeleton height="80px" />
         </Box>
