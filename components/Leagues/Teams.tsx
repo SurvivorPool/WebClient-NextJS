@@ -23,7 +23,19 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
     return teams.map((team) => (
       <tr key={team.id}>
         <td>
-          <Link href={`/team/${team.id}`}>View Team</Link>
+          <Link href={`/team/${team.id}`}>
+            <Text
+              sx={({ colors }) => ({
+                color: colors.orange[5],
+
+                "&:hover": {
+                  color: colors.red[4],
+                },
+              })}
+            >
+              View Team
+            </Text>
+          </Link>
         </td>
         <td>
           <b>{team.name}</b>
