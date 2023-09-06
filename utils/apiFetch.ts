@@ -40,6 +40,7 @@ const apiFetch = async (url: string, options?: any) => {
         data?.detail ||
         "Something went wrong, try reloading the page or logging in again.",
     });
+    signIn();
   }
 
   return data;
