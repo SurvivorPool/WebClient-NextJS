@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Card,
   MediaQuery,
@@ -10,6 +9,7 @@ import {
 } from "@mantine/core";
 import { FC, useMemo } from "react";
 
+import Avatar from "../Common/Avatar";
 import { IconInfoCircle } from "@tabler/icons-react";
 import Link from "next/link";
 import { Team } from "@/types";
@@ -49,7 +49,7 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
               gap: "8px",
             }}
           >
-            <Avatar radius="xl">{team.user.full_name[0].toUpperCase()}</Avatar>
+            <Avatar name={team.user.full_name[0]} />
             <Text fz="sm">{team.user.full_name}</Text>
           </Box>
         </td>

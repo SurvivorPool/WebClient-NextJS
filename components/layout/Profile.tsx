@@ -1,17 +1,18 @@
-import { Avatar, Box, Button } from "@mantine/core";
+import { Box, Button, MediaQuery } from "@mantine/core";
 import { signIn, signOut, useSession } from "next-auth/react";
 
+import Avatar from "../Common/Avatar";
 import { FC } from "react";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 const Profile: FC = () => {
   const { data: session } = useSession();
-  const router = useRouter()
+  const router = useRouter();
   const signout = async () => {
-      const url = new URL(process.env.NEXT_PUBLIC_COGNITO_LOGOUT_URL || "");
-      await signOut();
-      await router.push(url)
-  }
+    const url = new URL(process.env.NEXT_PUBLIC_COGNITO_LOGOUT_URL || "");
+    await signOut();
+    await router.push(url);
+  };
   if (!session) {
     return (
       <Button
@@ -28,9 +29,6 @@ const Profile: FC = () => {
 
   const { user } = session;
 
-  // @ts-ignore
-  const initial = (user.name[0] || "u").toUpperCase();
-
   return (
     <Box
       sx={{
@@ -39,9 +37,16 @@ const Profile: FC = () => {
         gap: "24px",
       }}
     >
-      <Avatar radius="xl" color="orange">
-        {initial}
-      </Avatar>
+      <MediaQuery
+        smallerThan={"xs"}
+        styles={{
+          display: "none",
+        }}
+      >
+        <Box>
+          <Avatar name={user?.name || ""} size="md" />
+        </Box>
+      </MediaQuery>
       <Button onClick={async () => await signout()}>Sign Out</Button>
     </Box>
   );
