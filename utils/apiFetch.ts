@@ -9,7 +9,7 @@ const apiFetch = async (url: string, options?: any) => {
   const { accessToken } = session;
 
   if (!accessToken || !session) {
-    signIn();
+    signIn("cognito");
     return null;
   }
 
@@ -29,7 +29,7 @@ const apiFetch = async (url: string, options?: any) => {
       color: "red",
       message: "Please login again to continue.",
     });
-    signIn();
+    signIn("cognito");
   }
 
   if (!res.ok) {
@@ -40,7 +40,7 @@ const apiFetch = async (url: string, options?: any) => {
         data?.detail ||
         "Something went wrong, try reloading the page or logging in again.",
     });
-    signIn();
+    signIn("cognito");
   }
 
   return data;

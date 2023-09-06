@@ -17,7 +17,7 @@ const Profile: FC = () => {
     return (
       <Button
         onClick={() =>
-          signIn(undefined, {
+          signIn("cognito", {
             callbackUrl: "/leagues",
           })
         }

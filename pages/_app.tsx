@@ -101,7 +101,7 @@ function AuthGuard({ children }: { children: ReactNode }) {
       return;
     }
     if (!isUser) {
-      signIn();
+      signIn("cognito");
     }
   }, [isUser, status]);
 
