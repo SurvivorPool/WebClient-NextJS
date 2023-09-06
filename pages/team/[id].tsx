@@ -133,7 +133,7 @@ const Team = () => {
                 alignItems: "center",
               }}
             >
-              <Avatar name={data.user.full_name[0]} />
+              <Avatar name={data.user.full_name} />
               <Text>{data?.user?.full_name}</Text>
             </Box>
           </Box>

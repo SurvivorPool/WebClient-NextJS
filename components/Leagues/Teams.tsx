@@ -49,7 +49,7 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
               gap: "8px",
             }}
           >
-            <Avatar name={team.user.full_name[0]} />
+            <Avatar name={team.user.full_name} />
             <Text fz="sm">{team.user.full_name}</Text>
           </Box>
         </td>
