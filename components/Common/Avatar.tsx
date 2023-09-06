@@ -41,8 +41,7 @@ const Avatar: FC<AvatarProps> = ({ name, size }) => {
   const { colorScheme } = useMantineColorScheme();
   const initial = (name[0] || "u").toUpperCase();
   const color = getStringColor(name, {
-    hue: [225, 350],
-    sat: [40, 70],
+    hue: [name.length * 2, Math.min((40 + name.length / 3) * 10, 280)],
   });
 
   return (
