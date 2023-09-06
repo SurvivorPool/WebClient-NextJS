@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -11,6 +10,7 @@ import {
   Text,
 } from "@mantine/core";
 
+import Avatar from "@/components/Common/Avatar";
 import BreadCrumb from "@/components/Common/BreadCrumb";
 import EditTeamName from "@/components/Teams/EditTeamName";
 import Info from "@/components/Common/Info";
@@ -133,9 +133,7 @@ const Team = () => {
                 alignItems: "center",
               }}
             >
-              <Avatar radius={"xl"}>
-                {data.user.full_name[0].toUpperCase()}
-              </Avatar>
+              <Avatar name={data.user.full_name[0]} />
               <Text>{data?.user?.full_name}</Text>
             </Box>
           </Box>
