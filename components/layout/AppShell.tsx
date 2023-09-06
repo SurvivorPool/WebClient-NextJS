@@ -86,14 +86,7 @@ const AppShell: FC<AppShellProps> = ({ children }) => {
         },
       })}
     >
-      <Container
-        size="xl"
-        sx={{
-          marginTop: "24px",
-        }}
-      >
-        {children}
-      </Container>
+      <Container size="xl">{children}</Container>
     </MantineAppShell>
   );
 };

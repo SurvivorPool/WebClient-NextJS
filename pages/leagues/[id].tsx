@@ -14,6 +14,7 @@ import {
 import { useMemo, useState } from "react";
 
 import AddTeam from "@/components/Teams/AddTeam";
+import BreadCrumb from "@/components/Common/BreadCrumb";
 import Info from "@/components/Common/Info";
 import MyTeams from "@/components/Leagues/MyTeams";
 import Teams from "@/components/Leagues/Teams";
@@ -62,6 +63,21 @@ const Leagues = () => {
     );
   }, [data, session, isLoading]);
 
+  const crumbs = useMemo(() => {
+    if (!data) return [];
+
+    return [
+      {
+        title: "Leagues",
+        href: "/leagues",
+      },
+      {
+        title: data.name,
+        href: null,
+      },
+    ];
+  }, [data]);
+
   const onBackClick = () => {
     router.push("/leagues");
   };
@@ -87,84 +103,89 @@ const Leagues = () => {
       : currencyFormatter.format(data.price);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "16px",
-      }}
-    >
-      <SimpleGrid
-        spacing={"md"}
-        breakpoints={[
-          { minWidth: "sm", cols: 1 },
-          { minWidth: "md", cols: 2 },
-        ]}
-      >
-        <Box>
-          <Title order={2}>{data.name}</Title>
-          <Text>{data.description}</Text>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "16px",
-            justifyContent: "flex-end",
-          }}
-        >
-          {data.signup_active && (
-            <Button onClick={onJoinClick} disabled={isAddingTeam}>
-              {!!teams?.usersTeams?.length ? "Add Another Team" : "Join League"}
-            </Button>
-          )}
-          <Button variant="outline" onClick={onBackClick}>
-            Back to Leagues
-          </Button>
-        </Box>
-      </SimpleGrid>
-      <Transition
-        mounted={isAddingTeam}
-        transition="slide-up"
-        duration={350}
-        timingFunction="ease"
-      >
-        {(styles) => (
-          <div style={styles}>
-            <AddTeam
-              leagueId={data.id}
-              onCancelClick={onCancelClick}
-              onAddTeam={onAddTeam}
-            />
-          </div>
-        )}
-      </Transition>
-      <Card
-        padding={"xl"}
+    <>
+      {!!data && <BreadCrumb items={crumbs} />}
+      <Box
         sx={{
-          backgroundImage: `linear-gradient(-60deg, #FDC37B
-           0%, #C1582D 100%)`,
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
         }}
       >
         <SimpleGrid
           spacing={"md"}
           breakpoints={[
-            { minWidth: "sm", cols: 2 },
-            { minWidth: "md", cols: 3 },
+            { minWidth: "sm", cols: 1 },
+            { minWidth: "md", cols: 2 },
           ]}
         >
-          <Info label="Status" value={"In Progress"} />
-          <Info
-            label="Current Pot"
-            value={currencyFormatter.format(data.pot)}
-          />
-          <Info label="Buy-In" value={displayPrice} />
+          <Box>
+            <Title order={2}>{data.name}</Title>
+            <Text>{data.description}</Text>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "16px",
+              justifyContent: "flex-end",
+            }}
+          >
+            {data.signup_active && (
+              <Button onClick={onJoinClick} disabled={isAddingTeam}>
+                {!!teams?.usersTeams?.length
+                  ? "Add Another Team"
+                  : "Join League"}
+              </Button>
+            )}
+            <Button variant="outline" onClick={onBackClick}>
+              Back to Leagues
+            </Button>
+          </Box>
         </SimpleGrid>
-      </Card>
-      <Divider my={"16px"} />
-      <MyTeams teams={teams.usersTeams} />
-      <Teams teams={teams.otherTeams} />
-    </Box>
+        <Transition
+          mounted={isAddingTeam}
+          transition="slide-up"
+          duration={350}
+          timingFunction="ease"
+        >
+          {(styles) => (
+            <div style={styles}>
+              <AddTeam
+                leagueId={data.id}
+                onCancelClick={onCancelClick}
+                onAddTeam={onAddTeam}
+              />
+            </div>
+          )}
+        </Transition>
+        <Card
+          padding={"xl"}
+          sx={{
+            backgroundImage: `linear-gradient(-60deg, #FDC37B
+           0%, #C1582D 100%)`,
+          }}
+        >
+          <SimpleGrid
+            spacing={"md"}
+            breakpoints={[
+              { minWidth: "sm", cols: 2 },
+              { minWidth: "md", cols: 3 },
+            ]}
+          >
+            <Info label="Status" value={"In Progress"} />
+            <Info
+              label="Current Pot"
+              value={currencyFormatter.format(data.pot)}
+            />
+            <Info label="Buy-In" value={displayPrice} />
+          </SimpleGrid>
+        </Card>
+        <Divider my={"16px"} />
+        <MyTeams teams={teams.usersTeams} />
+        <Teams teams={teams.otherTeams} />
+      </Box>
+    </>
   );
 };
 

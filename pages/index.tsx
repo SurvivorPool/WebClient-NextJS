@@ -2,7 +2,6 @@ import { Box, Text, Title } from "@mantine/core";
 
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import LandingFooter from "@/components/layout/LandingFooter";
 import LandingLayout from "@/components/layout/LandingLayout";
 import type { NextPageWithLayout } from "./_app";
 import { ReactNode } from "react";
@@ -20,7 +19,6 @@ const Home: NextPageWithLayout = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-end",
-          bottom: 120,
         }}
       >
         <Box
@@ -85,7 +83,6 @@ const Home: NextPageWithLayout = () => {
           </Wave>
         </Box>
       </Box>
-      <LandingFooter />
     </>
   );
 };
