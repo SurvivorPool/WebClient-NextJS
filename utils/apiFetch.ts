@@ -1,11 +1,10 @@
-// @ts-nocheck
+import { getSession, signIn, signOut } from "next-auth/react";
 
-import { getSession, signIn } from "next-auth/react";
-
-import { notifications } from "@mantine/notifications";
+import Router from "next/router";
 
 const apiFetch = async (url: string, options?: any) => {
   const session = await getSession();
+  // @ts-ignore
   const { accessToken } = session;
 
   if (!accessToken || !session) {
@@ -23,24 +22,9 @@ const apiFetch = async (url: string, options?: any) => {
 
   const data = await res.json();
 
-  if (res.status === 401) {
-    notifications.show({
-      title: "Session Expired",
-      color: "red",
-      message: "Please login again to continue.",
-    });
-    signIn("cognito");
-  }
-
-  if (!res.ok) {
-    notifications.show({
-      title: "Error",
-      color: "red",
-      message:
-        data?.detail ||
-        "Something went wrong, try reloading the page or logging in again.",
-    });
-    signIn("cognito");
+  if (res.status === 401 || !res.ok) {
+    await signOut();
+    await Router.push(`${process.env.NEXT_PUBLIC_COGNITO_LOGOUT_URL}`);
   }
 
   return data;
