@@ -50,6 +50,9 @@ const MyTeams: FC<MyTeamsProps> = ({ teams }) => {
             </Text>
           )}
         </td>
+        <td>
+            {team.current_pick}
+        </td>
       </tr>
     ));
   }, [teams]);
@@ -65,6 +68,7 @@ const MyTeams: FC<MyTeamsProps> = ({ teams }) => {
               <th>Name</th>
               <th>Status</th>
               <th>Paid Up</th>
+              <th>Current Pick</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
