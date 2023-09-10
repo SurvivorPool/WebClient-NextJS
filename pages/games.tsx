@@ -68,12 +68,15 @@ const Games = () => {
           </Flex>
           <Text>
             Choose a team to win this week. If they win, you win. If they lose,
-            well, you lose.
+            well, you lose.*
           </Text>
-          <Text>
+          <Text >
             You can only choose a team <b>once</b> per season over the course of
             a league. You can change your pick up until the game starts. Good
             luck!
+          </Text>
+          <Text italic>
+            * Ties are counted as losses
           </Text>
           {teamData?.current_pick && (
             <Box
