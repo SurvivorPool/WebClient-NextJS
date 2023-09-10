@@ -50,9 +50,9 @@ const MyTeams: FC<MyTeamsProps> = ({ teams }) => {
             </Text>
           )}
         </td>
-          <td>
-              {team.current_pick}
-          </td>
+        <td>
+            {team.current_pick}
+        </td>
       </tr>
     ));
   }, [teams]);
