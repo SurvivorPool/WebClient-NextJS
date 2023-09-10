@@ -108,7 +108,7 @@ const Game: FC<GameProps> = ({
             alignItems: "center",
           }}
         >
-          <Text c="dimmed">{format(new Date(game.game_date), "PPPP")}</Text>
+          <Text c="dimmed">{format(new Date(game.game_date), "PPPP h:mm a")}</Text>
           <Text c="dimmed">{getGameStatus()}</Text>
           <Text c="dimmed">Odds: {game.odds.details}</Text>
         </Flex>
