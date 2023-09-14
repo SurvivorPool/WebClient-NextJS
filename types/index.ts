@@ -73,3 +73,10 @@ export type Game = {
   away_team_info: GameTeamInfo;
   home_team_info: GameTeamInfo;
 };
+
+export type PickHistory = {
+  player_team_id: string;
+  id: string;
+  game_id: number;
+  nfl_team_name: string;
+};

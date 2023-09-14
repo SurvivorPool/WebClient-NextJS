@@ -14,7 +14,7 @@ import Avatar from "@/components/Common/Avatar";
 import BreadCrumb from "@/components/Common/BreadCrumb";
 import EditTeamName from "@/components/Teams/EditTeamName";
 import Info from "@/components/Common/Info";
-//import PickHistory from "@/components/Teams/PickHistory";
+import PickHistory from "@/components/Teams/PickHistory";
 import useGetTeamById from "@/hooks/useGetTeamById";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
@@ -158,6 +158,13 @@ const Team = () => {
               value={data.streak ? data.streak : "No wins yet"}
             />
           </SimpleGrid>
+        </Card>
+        <Card>
+          <PickHistory
+            pickHistory={data.pick_history}
+            currentPick={data.current_pick}
+            isActive={data.active}
+          />
         </Card>
       </Box>
     </>
