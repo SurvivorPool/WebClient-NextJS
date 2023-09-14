@@ -3,6 +3,10 @@
 import CognitoProvider from "next-auth/providers/cognito";
 import NextAuth from "next-auth";
 
+const updateGames = async () => {
+  return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/games`);
+};
+
 const existenceCheck = async (userId: string) => {
   const exists = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/users/exists/${userId}`,
@@ -48,6 +52,7 @@ export const authOptions = {
   callbacks: {
     async signIn({ user }) {
       const { exists } = await existenceCheck(user.id);
+      await updateGames();
 
       if (exists) {
         return true;
