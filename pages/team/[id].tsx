@@ -14,38 +14,11 @@ import Avatar from "@/components/Common/Avatar";
 import BreadCrumb from "@/components/Common/BreadCrumb";
 import EditTeamName from "@/components/Teams/EditTeamName";
 import Info from "@/components/Common/Info";
-import PickHistory from "@/components/Teams/PickHistory";
+//import PickHistory from "@/components/Teams/PickHistory";
 import useGetTeamById from "@/hooks/useGetTeamById";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-
-const mockPickHistory = [
-  {
-    id: "1",
-    player_team_id: "1",
-    nfl_team_name: "Rams",
-    game_id: "1",
-  },
-  {
-    id: "2",
-    player_team_id: "1",
-    nfl_team_name: "Dolphins",
-    game_id: "2",
-  },
-  {
-    id: "3",
-    player_team_id: "1",
-    nfl_team_name: "Bills",
-    game_id: "3",
-  },
-  {
-    id: "4",
-    player_team_id: "1",
-    nfl_team_name: "Raiders",
-    game_id: "4",
-  },
-];
 
 const Team = () => {
   const router = useRouter();
@@ -186,11 +159,6 @@ const Team = () => {
             />
           </SimpleGrid>
         </Card>
-        <PickHistory
-          pickHistory={data.pick_history}
-          //pickHistory={mockPickHistory}
-          currentPick={data?.current_pick}
-        />
       </Box>
     </>
   );
