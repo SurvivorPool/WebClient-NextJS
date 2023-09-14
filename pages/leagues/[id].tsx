@@ -17,6 +17,7 @@ import AddTeam from "@/components/Teams/AddTeam";
 import BreadCrumb from "@/components/Common/BreadCrumb";
 import Info from "@/components/Common/Info";
 import MyTeams from "@/components/Leagues/MyTeams";
+import Stats from "@/components/Leagues/Stats";
 import Teams from "@/components/Leagues/Teams";
 import { currencyFormatter } from "@/utils/formatters";
 import useGetLeaguesById from "@/hooks/useGetLeagueById";
@@ -181,6 +182,7 @@ const Leagues = () => {
             <Info label="Buy-In" value={displayPrice} />
           </SimpleGrid>
         </Card>
+        <Stats league={data} />
         <Divider my={"16px"} />
         <MyTeams teams={teams.usersTeams} />
         <Teams teams={teams.otherTeams} />
