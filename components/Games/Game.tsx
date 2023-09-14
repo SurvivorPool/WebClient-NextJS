@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { FC, useMemo } from "react";
-import { Game, Team } from "@/types";
+import { Game, Team, PickHistory } from "@/types";
 import { format } from "date-fns";
 
 import { Box, Button, Card, Divider, Flex, Text, Title } from "@mantine/core";
@@ -14,6 +14,12 @@ interface GameProps {
   games: Array<Game>;
   hasPick: boolean;
   onMakePick: (gameId: number, teamName: string, teamAbbrev: string) => void;
+}
+
+function hasPickedTeam(teamName: string, pickHistory: Array<PickHistory>) {
+  return pickHistory.some(
+    (pick: PickHistory) => pick.nfl_team_name === teamName
+  );
 }
 
 const Game: FC<GameProps> = ({
@@ -71,9 +77,11 @@ const Game: FC<GameProps> = ({
     const awayTeamName = game.away_team_info.nickname;
 
     const canPickHome =
-      currentPick !== homeTeamName && !team.pick_history.includes(homeTeamName);
+      currentPick !== homeTeamName &&
+      !hasPickedTeam(homeTeamName, team.pick_history);
     const canPickAway =
-      currentPick !== awayTeamName && !team.pick_history.includes(awayTeamName);
+      currentPick !== awayTeamName &&
+      !hasPickedTeam(awayTeamName, team.pick_history);
 
     return {
       canMakePick,
@@ -108,7 +116,9 @@ const Game: FC<GameProps> = ({
             alignItems: "center",
           }}
         >
-          <Text c="dimmed">{format(new Date(game.game_date), "PPPP h:mm a")}</Text>
+          <Text c="dimmed">
+            {format(new Date(game.game_date), "PPPP h:mm a")}
+          </Text>
           <Text c="dimmed">{getGameStatus()}</Text>
           <Text c="dimmed">Odds: {game.odds.details}</Text>
         </Flex>

@@ -17,8 +17,8 @@ const Output: FC<OutputProps> = ({ output }) => (
         )}
       </CopyButton>
     </Flex>
-    <ScrollArea mah={500}>
-      <Code block>{output}</Code>
+    <ScrollArea h={600}>
+      <Code>{output}</Code>
     </ScrollArea>
   </Flex>
 );

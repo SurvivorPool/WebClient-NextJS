@@ -1,13 +1,66 @@
 import { Box, Card, Text, Timeline, Title } from "@mantine/core";
+import { FC, useMemo } from "react";
+import { PickHistory } from "@/types";
+import { IconX, IconCheck } from "@tabler/icons-react";
 
-import { FC } from "react";
-
+const TimelineContent = ({ week }: { week: number }) => (
+  <Text c="dimmed" fz={"xs"}>{`Week ${week}`}</Text>
+);
 interface PickHistoryProps {
-  pickHistory: any[];
+  pickHistory: Array<PickHistory>;
   currentPick?: string;
+  isActive: boolean;
 }
 
-const PickHistory: FC<PickHistoryProps> = ({ pickHistory, currentPick }) => {
+const PickHistory: FC<PickHistoryProps> = ({
+  pickHistory,
+  currentPick,
+  isActive,
+}) => {
+  const rows = useMemo(() => {
+    const history = pickHistory.map((pick, index, arr) => {
+      const isLastPick = index === arr.length - 1;
+      return (
+        <Timeline.Item
+          key={pick.id}
+          title={pick.nfl_team_name}
+          lineVariant={isLastPick ? "dashed" : "solid"}
+          h={50}
+          color={!isActive && isLastPick ? "red" : "green"}
+          bullet={
+            !isActive && isLastPick ? (
+              <IconX size={20} />
+            ) : (
+              <IconCheck size={20} />
+            )
+          }
+        >
+          <TimelineContent week={index + 1} />
+        </Timeline.Item>
+      );
+    });
+
+    if (currentPick) {
+      history.push(
+        <Timeline.Item key={currentPick} title={currentPick} h={50}>
+          <TimelineContent week={pickHistory.length + 1} />
+        </Timeline.Item>
+      );
+    } else if (isActive) {
+      history.push(
+        <Timeline.Item
+          key={"No Pick"}
+          title={"No current pick"}
+          color="gray"
+          h={50}
+        >
+          <TimelineContent week={pickHistory.length + 1} />
+        </Timeline.Item>
+      );
+    }
+
+    return history;
+  }, [pickHistory]);
   return (
     <Card>
       <Title order={4}>Pick History</Title>
@@ -22,24 +75,11 @@ const PickHistory: FC<PickHistoryProps> = ({ pickHistory, currentPick }) => {
       >
         {pickHistory?.length ? (
           <Timeline
-            active={pickHistory?.length - 1}
-            bulletSize={24}
-            lineWidth={7}
+            lineWidth={2}
+            bulletSize={26}
+            active={pickHistory.length - 1}
           >
-            {pickHistory.map((pick) => (
-              <Timeline.Item key={pick.id}>
-                <Box h="50px">
-                  <Text>{pick.nfl_team_name}</Text>
-                </Box>
-              </Timeline.Item>
-            ))}
-            {currentPick && (
-              <Timeline.Item>
-                <Box h="50px">
-                  <Text>{currentPick}</Text>
-                </Box>
-              </Timeline.Item>
-            )}
+            {rows}
           </Timeline>
         ) : (
           <>
