@@ -1,4 +1,4 @@
-import { Box, Card, Table, Text, Title } from "@mantine/core";
+import { Box, Card, Table, Text, Title, useMantineTheme } from "@mantine/core";
 import { FC, useMemo } from "react";
 
 import Link from "next/link";
@@ -9,9 +9,15 @@ interface MyTeamsProps {
 }
 
 const MyTeams: FC<MyTeamsProps> = ({ teams }) => {
+  const theme = useMantineTheme();
   const rows = useMemo(() => {
     return teams.map((team) => (
-      <tr key={team.id}>
+      <tr
+        key={team.id}
+        style={{
+          backgroundColor: !team.active ? theme.colors.red[1] : "transparent",
+        }}
+      >
         <td>
           <Link href={`/team/${team.id}`}>
             <Text
@@ -23,23 +29,9 @@ const MyTeams: FC<MyTeamsProps> = ({ teams }) => {
                 },
               })}
             >
-              View Team
+              <b>{team.name}</b>
             </Text>
           </Link>
-        </td>
-        <td>
-          <b>{team.name}</b>
-        </td>
-        <td>
-          {team.active ? (
-            <Text size="md" color="green">
-              Active
-            </Text>
-          ) : (
-            <Text color="red" size="md">
-              Inactive
-            </Text>
-          )}
         </td>
         <td>
           {team.paid ? (
@@ -50,9 +42,7 @@ const MyTeams: FC<MyTeamsProps> = ({ teams }) => {
             </Text>
           )}
         </td>
-        <td>
-            {team.current_pick}
-        </td>
+        <td>{team.current_pick}</td>
       </tr>
     ));
   }, [teams]);
@@ -64,9 +54,7 @@ const MyTeams: FC<MyTeamsProps> = ({ teams }) => {
         <Table fontSize={"xs"}>
           <thead>
             <tr>
-              <th></th>
               <th>Name</th>
-              <th>Status</th>
               <th>Paid Up</th>
               <th>Current Pick</th>
             </tr>

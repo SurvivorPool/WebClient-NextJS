@@ -1,11 +1,11 @@
 import {
   Box,
   Card,
-  MediaQuery,
   Table,
   Text,
   Title,
   Tooltip,
+  useMantineTheme,
 } from "@mantine/core";
 import { FC, useMemo } from "react";
 
@@ -19,9 +19,15 @@ interface TeamsProps {
 }
 
 const Teams: FC<TeamsProps> = ({ teams }) => {
+  const theme = useMantineTheme();
   const rows = useMemo(() => {
     return teams.map((team) => (
-      <tr key={team.id}>
+      <tr
+        key={team.id}
+        style={{
+          backgroundColor: !team.active ? theme.colors.red[1] : "transparent",
+        }}
+      >
         <td>
           <Link href={`/team/${team.id}`}>
             <Text
@@ -33,12 +39,9 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
                 },
               })}
             >
-              View Team
+              <b>{team.name}</b>
             </Text>
           </Link>
-        </td>
-        <td>
-          <b>{team.name}</b>
         </td>
         <td>
           <Box
@@ -54,44 +57,28 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
           </Box>
         </td>
         <td>
-          {team.active ? (
-            <Text fz="sm" color="green">
-              Active
-            </Text>
-          ) : (
-            <Text fz="sm" color="red">
-              Inactive
-            </Text>
+          {team.active && !team?.current_pick && (
+            <Tooltip label="Other players' picks will be revealed when their game begins.">
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "4px",
+                  alignItems: "center",
+                }}
+              >
+                <IconInfoCircle size="18" color="#868e96" />
+                <Text fz="small" color="dimmed">
+                  Unavailable
+                </Text>
+              </Box>
+            </Tooltip>
           )}
+          {team.active && team?.current_pick && (
+            <Text>{team.current_pick}</Text>
+          )}
+          {!team.active && <Text color="red">Eliminated</Text>}
         </td>
-        <MediaQuery
-          smallerThan={"sm"}
-          styles={{
-            display: "none",
-          }}
-        >
-          {!team?.current_pick ? (
-            <td>
-              <Tooltip label="Other players' picks will be revealed when their game begins.">
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: "4px",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconInfoCircle size="18" color="#868e96" />
-                  <Text fz="small" color="dimmed">
-                    Unavailable
-                  </Text>
-                </Box>
-              </Tooltip>
-            </td>
-          ) : (
-            <td>{team.current_pick}</td>
-          )}
-        </MediaQuery>
       </tr>
     ));
   }, [teams]);
@@ -103,18 +90,9 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
         <Table fontSize={"xs"}>
           <thead>
             <tr>
-              <th></th>
               <th>Name</th>
               <th>Coach</th>
-              <th>Status</th>
-              <MediaQuery
-                smallerThan={"sm"}
-                styles={{
-                  display: "none",
-                }}
-              >
-                <th>Current Pick</th>
-              </MediaQuery>
+              <th>Current Pick</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
