@@ -44,7 +44,7 @@ const Stats: FC<StatsProps> = ({ league }) => {
     }
 
     return data?.previous_week_picks_current_league.sort(
-      (a, b) => a.count - b.count
+      (a, b) => b.count - a.count
     );
   }, [data, isLoading]);
 
