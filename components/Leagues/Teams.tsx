@@ -1,16 +1,15 @@
 import {
   Box,
   Card,
+  Flex,
   Table,
   Text,
   Title,
-  Tooltip,
   useMantineTheme,
 } from "@mantine/core";
 import { FC, useMemo } from "react";
 
 import Avatar from "../Common/Avatar";
-import { IconInfoCircle } from "@tabler/icons-react";
 import Link from "next/link";
 import { Team } from "@/types";
 
@@ -44,35 +43,16 @@ const Teams: FC<TeamsProps> = ({ teams }) => {
           </Link>
         </td>
         <td>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
+          <Flex align={"center"} gap="xs">
             <Avatar name={team.user.full_name} />
             <Text fz="sm">{team.user.full_name}</Text>
-          </Box>
+          </Flex>
         </td>
         <td>
           {team.active && !team?.current_pick && (
-            <Tooltip label="Other players' picks will be revealed when their game begins.">
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "4px",
-                  alignItems: "center",
-                }}
-              >
-                <IconInfoCircle size="18" color="#868e96" />
-                <Text fz="small" color="dimmed">
-                  Unavailable
-                </Text>
-              </Box>
-            </Tooltip>
+            <Text fz="small" color="dimmed">
+              Unavailable
+            </Text>
           )}
           {team.active && team?.current_pick && (
             <Text>{team.current_pick}</Text>
