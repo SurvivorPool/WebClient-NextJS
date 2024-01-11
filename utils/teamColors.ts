@@ -34,5 +34,5 @@ export const teamColors = {
 };
 
 export const getTeamColor = (abbreviation: string): string => {
-  return (teamColors as any)[abbreviation];
+  return (teamColors as Record<string, string>)[abbreviation];
 };
